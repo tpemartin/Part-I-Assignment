@@ -1,0 +1,15 @@
+---
+title: "作業1 參考答案"
+output: html_notebook
+---
+## 1. 醫院真的使病人更健康？
+
+(A) 從http://economics.mit.edu/files/3827/ 下載分析所需stata資料
+
+```{r 1a, message=FALSE, warning=FALSE}
+library(haven)
+X3827 <- read_stata("http://economics.mit.edu/files/3827/")
+```
+
+(B) 
+

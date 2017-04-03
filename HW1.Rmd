@@ -1,10 +1,10 @@
 ---
-title: "R Notebook"
+title: "第一次電腦作業"
 output: html_notebook
 ---
 作業除了讓同學檢視課堂所學程式外，有些題目只會給你未教過的函數建議（純為建議，你也可以不使用），你必需使用Help或網路查尋去了解函數的正確使用；搜詢正確程式函數使用的能力，也是程式設計的基本功。
 
-教育與薪資
+教育與薪資 
 
 一開始請執行
 ```{r}
@@ -15,15 +15,21 @@ library(ggplot2)
 
 1. 下載作業中有一個資料檔pp.csv，請將它引入R且資料名稱叫做pums以方便後續討論。[hint: 可使用environment視窗的Import Datasets選單按鍵，但記得把對應程式貼進作業檔]
 ```{r}
-
+library(readr)
+pums<-read_csv("https://raw.githubusercontent.com/tpemartin/Part-I-Assignment/master/pp.csv")
 ```
 
 
 > 作業資料來自美國1980年針對中年白人勞動者的調查，這裡我們關心的Y變數是以2003年為基期的實質每週薪資(wklywge)，X變數是教育年限(educ). 我們想找出教育的報酬有多高？也就是多受點教育，薪資可以提高多少？
 
 2. 初步觀察wklywge與educ這兩個變數，你注意到什麼？可自由發揮所挔據的觀察，可以是統計量或是圖形。
+Ans:隨著教育程度越高，所獲得薪資越高。
 ```{r}
-
+model<-wklywge~educ
+out1<-lm(model,data=pums)
+summary(out1)
+pums %>% ggplot(aes(x=educ,y=wklywge)) +
+ geom_point()
 ```
 
 
@@ -31,7 +37,7 @@ library(ggplot2)
 
 3. 使用dplyr裡的filter()留下符合條件的樣本，且樣本取名為pums2。[Hint: 此題需要了解邏輯判斷程式規則，同學可以參考https://cran.r-project.org/doc/manuals/r-release/R-intro.pdf裡的2.4節Logical vectors。要注意的是，要判斷是否educ為12，要寫成educ==12，而非educ=12]
 ```{r}
-
+pums2 <- filter(pums,educ==12 | educ==16)
 ```
 
 
@@ -40,6 +46,8 @@ library(ggplot2)
 
 4. 在pums2產生一個college虛擬變數，college為1若educ=16。接著檢視該變數的class。
 ```{r}
+pums2$college<-(pums2$educ==16) 
+as.integer(pums2$college)
 
 ```
 
@@ -47,28 +55,35 @@ library(ggplot2)
 > 要進行分群分析時，我們可以使用dplyr::group_by()來產生分群資料，之後用dplyr::summarise()來產生各別群組的特徵值。如 dd %>% group_by(x) %>% summarise(mean(y)) 代表「使用資料dd，依其中的x變數分群，並計算各群組y變數的平均值。
 
 5. 觀察pums2不同學歷下的平均薪資與其離散度，你發現什麼？
+Ans:擁有大學學歷的人，平均薪資高出許多。
 ```{r}
-
+pums2 %>% group_by(educ) %>% summarise(mean(wklywge)) 
 ```
 
 6. 薪資研究多採用取對數轉換後的薪資，請產生取對數後的薪資變數，並取名為lwklywge。[Hint: 使用log()函數]
 ```{r}
-
+pums2$lwklywge<-log(pums2$wklywge)
 ```
 
 7. 請使用簡單迴歸來估計college對lwklywge的影響，並討論其顯著度。
 ```{r}
-
+model<-lwklywge~college
+out2<-lm(model,data=pums2)
+summary(out2)
 ```
 
 8. 考慮迴歸殘差的有異質變異，且此變異可以被college捕捉。請針對簡單迴歸模型進行FGLS估計。
 ```{r}
-
+library(nlme)
+out3<-gls(model,data=pums2,weight=varExp(form=~college))
+summary(out3)
 ```
 
 9. 針對上題的異質變異進行BP檢定。
 ```{r}
-
+library(lmtest)
+bptest(model,data=pums2)
 ```
 
 10. 針對簡單迴歸模型，討論college係數可能有偏估的原因。[非電腦題，請用文字論述。]
+從BP檢定可以看出結果是不拒絕虛無假設，所以應該沒有異質性問題，而college係數有偏估可能是因為放入的解釋變數不夠多。

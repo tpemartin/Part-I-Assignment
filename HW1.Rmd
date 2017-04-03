@@ -13,7 +13,7 @@ library(dplyr)
 library(ggplot2)
 ```
 
-1. 從https://www.dropbox.com/s/ir7fevvjjpcda3x/asciiqob.txt?dl=0 下載分析所需資料，並引入R且資料名稱叫做pums以方便後續討論。[hint: 可使用environment視窗的Import Datasets選單按鍵，但記得把對應程式貼進作業檔]
+1. 下載作業中有一個資料檔pp.csv，請將它引入R且資料名稱叫做pums以方便後續討論。[hint: 可使用environment視窗的Import Datasets選單按鍵，但記得把對應程式貼進作業檔]
 ```{r}
 
 ```

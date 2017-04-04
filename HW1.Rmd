@@ -41,6 +41,8 @@ pums2 <- filter(pums, educ==16 | educ==12)
 4. 在pums2產生一個college虛擬變數，college為1若educ=16。接著檢視該變數的class。
 ```{r}
 college <- pums2$educ==16
+class(college)
+pums2.0 <-cbind(pums2, college)
 ```
 
 
@@ -48,17 +50,18 @@ college <- pums2$educ==16
 
 5. 觀察pums2不同學歷下的平均薪資與其離散度，你發現什麼？
 ```{r}
-
+pums2 %>% group_by(educ) %>% summarise(mean(wklywge))
 ```
 
 6. 薪資研究多採用取對數轉換後的薪資，請產生取對數後的薪資變數，並取名為lwklywge。[Hint: 使用log()函數]
 ```{r}
-
+lwklywge <-log(pums2$wklywge)
 ```
 
 7. 請使用簡單迴歸來估計college對lwklywge的影響，並討論其顯著度。
 ```{r}
-
+lnmodel<-lm(lwklywge~college)
+summary(lnmodel)
 ```
 
 8. 考慮迴歸殘差的有異質變異，且此變異可以被college捕捉。請針對簡單迴歸模型進行FGLS估計。

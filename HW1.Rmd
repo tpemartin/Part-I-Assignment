@@ -15,7 +15,9 @@ library(ggplot2)
 
 1. 下載作業中有一個資料檔pp.csv，請將它引入R且資料名稱叫做pums以方便後續討論。[hint: 可使用environment視窗的Import Datasets選單按鍵，但記得把對應程式貼進作業檔]
 ```{r}
-
+library(readr)
+pums <- read.csv("https://raw.githubusercontent.com/tpemartin/Part-I-Assignment/master/pp.csv")
+View(pums)
 ```
 
 
@@ -23,42 +25,66 @@ library(ggplot2)
 
 2. 初步觀察wklywge與educ這兩個變數，你注意到什麼？可自由發揮所挔據的觀察，可以是統計量或是圖形。
 ```{r}
+psych::describe(pums)
+pums %>% ggplot(aes(x=wklywge)) + geom_histogram()
+pums %>% ggplot(aes(x=log(wklywge))) + geom_histogram()
+pums %>% ggplot(aes(x=educ)) + geom_histogram()
+
+## 每週薪資（wklywge）存在著明顯的右偏，且有很高的kurtosis，最好將其取對數使其變得平滑
 
 ```
-
+# educ
 
 > 我們只打算分析拿到高中學歷與大學學歷的薪資差異，令educ=12為高中學歷，而educ=16為大學學歷。
 
 3. 使用dplyr裡的filter()留下符合條件的樣本，且樣本取名為pums2。[Hint: 此題需要了解邏輯判斷程式規則，同學可以參考https://cran.r-project.org/doc/manuals/r-release/R-intro.pdf裡的2.4節Logical vectors。要注意的是，要判斷是否educ為12，要寫成educ==12，而非educ=12]
 ```{r}
+pums %>% filter(educ == 12 | educ == 16) -> pums3
+
+
+pums %>% with(pums2 <<- pums[educ == 12 | educ == 16,c("wklywge","educ")])
 
 ```
-
+#用兩種方法嘗試
 
 ***
 以下問題請使用pums2資料
 
 4. 在pums2產生一個college虛擬變數，college為1若educ=16。接著檢視該變數的class。
 ```{r}
-
+pums2 %>% within({college <- NA
+                  college[educ == 16] <- 1
+                  college[educ == 12] <- 0
+                  college <- factor(college)}) ->pums2
 ```
+# 將其class 從 numeric 轉為 factor
 
 
 > 要進行分群分析時，我們可以使用dplyr::group_by()來產生分群資料，之後用dplyr::summarise()來產生各別群組的特徵值。如 dd %>% group_by(x) %>% summarise(mean(y)) 代表「使用資料dd，依其中的x變數分群，並計算各群組y變數的平均值。
 
 5. 觀察pums2不同學歷下的平均薪資與其離散度，你發現什麼？
 ```{r}
+pums2 %>% group_by(college) %>% summarise(mean(wklywge),sd(wklywge))
 
+## 大學學歷比高中學歷的周薪資更高，並且，大學學歷的薪資波動範圍也高於高中學歷，有更大的離離散度
 ```
 
 6. 薪資研究多採用取對數轉換後的薪資，請產生取對數後的薪資變數，並取名為lwklywge。[Hint: 使用log()函數]
 ```{r}
-
+pums2$lwklywge <- log(pums2$wklywge)
 ```
 
 7. 請使用簡單迴歸來估計college對lwklywge的影響，並討論其顯著度。
 ```{r}
+model<-lwklywge~college
+out1<-lm(model,data=pums2)
+summary(out1)
 
+library(sandwich)
+library(lmtest)
+coeftest(out1,vcov=vcovHC(out1,type="HC0"))
+
+# 模型簡單回歸后得到的，在其他條件不變的情況下，
 ```
 
 8. 考慮迴歸殘差的有異質變異，且此變異可以被college捕捉。請針對簡單迴歸模型進行FGLS估計。

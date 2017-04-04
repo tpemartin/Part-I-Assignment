@@ -66,8 +66,10 @@ summary(lnmodel)
 
 8. 考慮迴歸殘差的有異質變異，且此變異可以被college捕捉。請針對簡單迴歸模型進行FGLS估計。
 ```{r}
-library()
-glsmodel<-gls(lnmodel, data=pums2, weights=varEXP(form=~college))
+library(nlme)
+library(sandwich)
+library(lmtest)
+glsmodel<-gls(lwklywge~college, data=pums2, weights=varExp(form=~college))
 summary(glsmodel)
 ```
 

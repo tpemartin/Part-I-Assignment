@@ -23,7 +23,7 @@ pums <- read_csv("C:/Users/asus/Desktop/School/Graduate School TW/Quan/Part-I-As
 
 2. 初步觀察wklywge與educ這兩個變數，你注意到什麼？可自由發揮所挔據的觀察，可以是統計量或是圖形。
 ```{r}
-
+lm(wklywge~ educ, pums)
 ```
 
 
@@ -40,7 +40,7 @@ pums2 <- filter(pums, educ==16 | educ==12)
 
 4. 在pums2產生一個college虛擬變數，college為1若educ=16。接著檢視該變數的class。
 ```{r}
-
+college <- pums2$educ==16
 ```
 
 

@@ -75,7 +75,7 @@ summary(glsmodel)
 
 9. 針對上題的異質變異進行BP檢定。
 ```{r}
-
+bptest(lnmodel, data=pums2)
 ```
 
 10. 針對簡單迴歸模型，討論college係數可能有偏估的原因。[非電腦題，請用文字論述。]

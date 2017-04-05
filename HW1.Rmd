@@ -56,9 +56,10 @@ pums2 %>% within({college <- NA
                   college[educ == 16] <- 1
                   college[educ == 12] <- 0
                   college <- factor(college)}) ->pums2
-```
-# 將其class 從 numeric 轉為 factor
+class(pums2$college)
 
+```
+# 將college的class 從 numeric 轉為 factor
 
 > 要進行分群分析時，我們可以使用dplyr::group_by()來產生分群資料，之後用dplyr::summarise()來產生各別群組的特徵值。如 dd %>% group_by(x) %>% summarise(mean(y)) 代表「使用資料dd，依其中的x變數分群，並計算各群組y變數的平均值。
 
@@ -84,17 +85,26 @@ library(sandwich)
 library(lmtest)
 coeftest(out1,vcov=vcovHC(out1,type="HC0"))
 
-# 模型簡單回歸后得到的，在其他條件不變的情況下，
+# 模型簡單回歸后得到的，在其他條件不變的情況下，大學生的周薪資會比高中生的周薪資高38.4%，這一點在異質變數的情況也是顯著的
 ```
 
 8. 考慮迴歸殘差的有異質變異，且此變異可以被college捕捉。請針對簡單迴歸模型進行FGLS估計。
 ```{r}
+library(nlme)
+pums2$predicted<-predict(out1)
+pums2$residuals<-residuals(out1)
+pums2 %>% ggplot(aes(x=college,y=(residuals)^2))+geom_point()
+summary(out1)
+
+out2<-gls(model,data=pums2,weights = varIdent(form = ~1| college))
+summary(out2)
+
 
 ```
 
 9. 針對上題的異質變異進行BP檢定。
 ```{r}
-
+bptest(model,data=pums2)
 ```
 
 10. 針對簡單迴歸模型，討論college係數可能有偏估的原因。[非電腦題，請用文字論述。]

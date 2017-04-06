@@ -14,23 +14,82 @@ library(ggplot2)
 ```
 
 1. 下載作業中有一個資料檔pp.csv，請將它引入R且資料名稱叫做pums以方便後續討論。[hint: 可使用environment視窗的Import Datasets選單按鍵，但記得把對應程式貼進作業檔]
+```{r pums}
+library(readr)
+pums<-read_csv("https://raw.githubusercontent.com/chiuchenkang/Part-I-Assignment/gogohomework/pp.csv")
+```
+
+$$
+\log(ww_i)=\beta_0+\beta_1\log(edu_1)
++\beta_2{log(yob_i)}
++\beta_3\log(qob_i)+beta_4\log(pob_i)+\epsilon_i
+$$
+
+```{r model}
+model<-wklywge~educ+yob+qob+pob
+```
+
 ```{r}
+out1<-lm(model, data=pums)
+summary(out1)
+```
+```{r}
+pums<-tbl_df(pums)
+
+```
+```{r message=FALSE, warning=FALSE}
+library(psych)
 
 ```
 
-
+```{r }
+describe(pums)
+```
 > 作業資料來自美國1980年針對中年白人勞動者的調查，這裡我們關心的Y變數是以2003年為基期的實質每週薪資(wklywge)，X變數是教育年限(educ). 我們想找出教育的報酬有多高？也就是多受點教育，薪資可以提高多少？
 
 2. 初步觀察wklywge與educ這兩個變數，你注意到什麼？可自由發揮所挔據的觀察，可以是統計量或是圖形。
+
+
+
 ```{r}
+pums %>% ggplot(aes(x=educ,y=wklywge))+
+geom_point()->f1
+f1
+```
+```{r}
+pums%>%ggplot(aes(x=log(educ)))+
+geom_histogram()
+```
+```{r}
+pums%>%ggplot(aes(x=log(wklywge)))+
+  geom_histogram()
+```
+```{r}
+pums%>%ggplot(aes(x=log(educ),y=log(wklywge)))+
+  geom_point()
+  
 
 ```
+```{r}
+pums%>%ggplot(aes(x=wklywge,y=educ))+
+geom_point()
+  pums%>%ggplot(aes(x=log(wklywge),y=log(educ)))+
+  geom_point()
+```
 
-
+```{r}
+library(ggplot2)
+ggplot(data=pums,aes(x=log(educ),y=log(wklywge),color=factor(pob)))+
+  geom_point()
+```
 > 我們只打算分析拿到高中學歷與大學學歷的薪資差異，令educ=12為高中學歷，而educ=16為大學學歷。
 
 3. 使用dplyr裡的filter()留下符合條件的樣本，且樣本取名為pums2。[Hint: 此題需要了解邏輯判斷程式規則，同學可以參考https://cran.r-project.org/doc/manuals/r-release/R-intro.pdf裡的2.4節Logical vectors。要注意的是，要判斷是否educ為12，要寫成educ==12，而非educ=12]
 ```{r}
+
+pums%>%filter(educ==12|educ==16)->pums2
+
+
 
 ```
 
@@ -40,6 +99,9 @@ library(ggplot2)
 
 4. 在pums2產生一個college虛擬變數，college為1若educ=16。接著檢視該變數的class。
 ```{r}
+college<-pums2$educ==16
+class(college)
+
 
 ```
 
@@ -48,12 +110,12 @@ library(ggplot2)
 
 5. 觀察pums2不同學歷下的平均薪資與其離散度，你發現什麼？
 ```{r}
-
+pums2%>%group_by(educ==16)%>%summarise(mean(wklywge))
 ```
 
 6. 薪資研究多採用取對數轉換後的薪資，請產生取對數後的薪資變數，並取名為lwklywge。[Hint: 使用log()函數]
 ```{r}
-
+log(pums2$wklywge)->lwklyge 
 ```
 
 7. 請使用簡單迴歸來估計college對lwklywge的影響，並討論其顯著度。

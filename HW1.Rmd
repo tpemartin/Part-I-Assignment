@@ -51,6 +51,7 @@ View(pums2)
 library(dummy)
 pums2 %>%
   dummy<- as.numeric(educ==16)
+testInheritedMethods()
   
 ```
 

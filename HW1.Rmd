@@ -15,7 +15,9 @@ library(ggplot2)
 
 1. 下載作業中有一個資料檔pp.csv，請將它引入R且資料名稱叫做pums以方便後續討論。[hint: 可使用environment視窗的Import Datasets選單按鍵，但記得把對應程式貼進作業檔]
 ```{r}
-
+library(readr)
+pums <- read_csv("pp.csv")
+View(pums)
 ```
 
 
@@ -23,6 +25,10 @@ library(ggplot2)
 
 2. 初步觀察wklywge與educ這兩個變數，你注意到什麼？可自由發揮所挔據的觀察，可以是統計量或是圖形。
 ```{r}
+library(psych)
+describe(pums)
+pums %>% 
+  ggplot(aes(x=educ, y=wklywge))+ geom_point()
 
 ```
 
@@ -31,7 +37,9 @@ library(ggplot2)
 
 3. 使用dplyr裡的filter()留下符合條件的樣本，且樣本取名為pums2。[Hint: 此題需要了解邏輯判斷程式規則，同學可以參考https://cran.r-project.org/doc/manuals/r-release/R-intro.pdf裡的2.4節Logical vectors。要注意的是，要判斷是否educ為12，要寫成educ==12，而非educ=12]
 ```{r}
-
+pums2 <- pums %>%
+  filter(educ == 12 | educ == 16)
+View(pums2)
 ```
 
 
@@ -40,7 +48,10 @@ library(ggplot2)
 
 4. 在pums2產生一個college虛擬變數，college為1若educ=16。接著檢視該變數的class。
 ```{r}
-
+library(dummy)
+pums2 %>%
+  dummy<- as.numeric(educ==16)
+  
 ```
 
 

@@ -15,7 +15,7 @@ library(ggplot2)
 
 1. 下載作業中有一個資料檔pp.csv，請將它引入R且資料名稱叫做pums以方便後續討論。[hint: 可使用environment視窗的Import Datasets選單按鍵，但記得把對應程式貼進作業檔]
 ```{r}
-
+pums <- read.csv("C:/Users/asus/Desktop/School/Graduate School TW/Quan/Part-I-Assignment/pp.csv")
 ```
 
 
@@ -23,7 +23,7 @@ library(ggplot2)
 
 2. 初步觀察wklywge與educ這兩個變數，你注意到什麼？可自由發揮所挔據的觀察，可以是統計量或是圖形。
 ```{r}
-
+lm(wklywge~ educ, pums)
 ```
 
 
@@ -31,7 +31,7 @@ library(ggplot2)
 
 3. 使用dplyr裡的filter()留下符合條件的樣本，且樣本取名為pums2。[Hint: 此題需要了解邏輯判斷程式規則，同學可以參考https://cran.r-project.org/doc/manuals/r-release/R-intro.pdf裡的2.4節Logical vectors。要注意的是，要判斷是否educ為12，要寫成educ==12，而非educ=12]
 ```{r}
-
+pums2 <- filter(pums, educ==16 | educ==12)
 ```
 
 
@@ -40,7 +40,9 @@ library(ggplot2)
 
 4. 在pums2產生一個college虛擬變數，college為1若educ=16。接著檢視該變數的class。
 ```{r}
-
+college <- pums2$educ==16
+class(college)
+pums2.0 <-cbind(pums2, college)
 ```
 
 
@@ -48,27 +50,33 @@ library(ggplot2)
 
 5. 觀察pums2不同學歷下的平均薪資與其離散度，你發現什麼？
 ```{r}
-
+pums2 %>% group_by(educ) %>% summarise(mean(wklywge))
 ```
 
 6. 薪資研究多採用取對數轉換後的薪資，請產生取對數後的薪資變數，並取名為lwklywge。[Hint: 使用log()函數]
 ```{r}
-
+lwklywge <-log(pums2$wklywge)
 ```
 
 7. 請使用簡單迴歸來估計college對lwklywge的影響，並討論其顯著度。
 ```{r}
-
+lnmodel<-lm(lwklywge~college)
+summary(lnmodel)
 ```
 
 8. 考慮迴歸殘差的有異質變異，且此變異可以被college捕捉。請針對簡單迴歸模型進行FGLS估計。
 ```{r}
-
+library(nlme)
+library(sandwich)
+library(lmtest)
+glsmodel<-gls(lwklywge~college, data=pums2, weights=varExp(form=~college))
+summary(glsmodel)
 ```
 
 9. 針對上題的異質變異進行BP檢定。
 ```{r}
-
+bptest(lnmodel, data=pums2)
 ```
 
 10. 針對簡單迴歸模型，討論college係數可能有偏估的原因。[非電腦題，請用文字論述。]
+我認為可能是college這個係數本身還可以再繼續細分下去，比如說台政清交等名校的畢業生賺的應該比其他學校多，所以college係數會產生偏差

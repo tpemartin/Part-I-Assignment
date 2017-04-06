@@ -86,3 +86,5 @@ bptest(model,varformula=~college,data=pums2)
 ```
 
 10. 針對簡單迴歸模型，討論college係數可能有偏估的原因。[非電腦題，請用文字論述。]
+
+變數college可能需要再細分，亦或者是加入其他變數來增加解釋力。

@@ -115,22 +115,26 @@ pums2%>%group_by(educ==16)%>%summarise(mean(wklywge))
 
 6. 薪資研究多採用取對數轉換後的薪資，請產生取對數後的薪資變數，並取名為lwklywge。[Hint: 使用log()函數]
 ```{r}
-log(pums2$wklywge)->lwklyge 
+log(pums2$wklywge)->lwklywge 
 ```
 
 7. 請使用簡單迴歸來估計college對lwklywge的影響，並討論其顯著度。
 ```{r}
-
+lnmodel<-lm(lwklywge~college)
 ```
 
 8. 考慮迴歸殘差的有異質變異，且此變異可以被college捕捉。請針對簡單迴歸模型進行FGLS估計。
 ```{r}
-
+library(nlme)
+library(sandwich)
+library(lmtest)
+glsmodel<-gls(lwklywge~college, data=pums2, weights=varExp(form=~college))
+summary(glsmodel)
 ```
 
 9. 針對上題的異質變異進行BP檢定。
-```{r}
-
+```{r} 
+bptest(lnmodel, data=pums2)
 ```
 
 10. 針對簡單迴歸模型，討論college係數可能有偏估的原因。[非電腦題，請用文字論述。]

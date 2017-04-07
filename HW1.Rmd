@@ -15,7 +15,7 @@ library(ggplot2)
 
 1. 下載作業中有一個資料檔pp.csv，請將它引入R且資料名稱叫做pums以方便後續討論。[hint: 可使用environment視窗的Import Datasets選單按鍵，但記得把對應程式貼進作業檔]
 ```{r}
-pums <- read.csv("C:/Users/asus/Desktop/School/Graduate School TW/Quan/Part-I-Assignment/pp.csv")
+pums <- read.csv("pp.csv")
 ```
 
 
@@ -23,7 +23,14 @@ pums <- read.csv("C:/Users/asus/Desktop/School/Graduate School TW/Quan/Part-I-As
 
 2. 初步觀察wklywge與educ這兩個變數，你注意到什麼？可自由發揮所挔據的觀察，可以是統計量或是圖形。
 ```{r}
-lm(wklywge~ educ, pums)
+ggplot(pums, aes(x=educ, y=wklywge))+geom_point()
+ggplot(pums, aes(x=educ))+geom_histogram()
+ggplot(pums, aes(x=log(wklywge)))+geom_histogram()
+lm(wklywge~educ,pums)
+#由第一個指令執行後的圖可以發現，當X軸為教育程度，Y軸為每週實質薪資時，隱約看的出  一點正相關的感覺。
+#第二個指令執行後的圖形可以看到相當多人都具有高中學歷，其次才是大學學歷。
+#第三個指令原先不取對數時難以判別，取對數後發現稍稍呈現右偏分布。
+#第四個指令執行OLS估計後可以看出教育年限係數為27.75，故當教育程度越高則每週實質薪  資越高。
 ```
 
 
@@ -31,7 +38,8 @@ lm(wklywge~ educ, pums)
 
 3. 使用dplyr裡的filter()留下符合條件的樣本，且樣本取名為pums2。[Hint: 此題需要了解邏輯判斷程式規則，同學可以參考https://cran.r-project.org/doc/manuals/r-release/R-intro.pdf裡的2.4節Logical vectors。要注意的是，要判斷是否educ為12，要寫成educ==12，而非educ=12]
 ```{r}
-pums2 <- filter(pums, educ==16 | educ==12)
+pums %>% filter(educ == 12 | educ == 16) -> pums2
+pums2
 ```
 
 
@@ -41,8 +49,8 @@ pums2 <- filter(pums, educ==16 | educ==12)
 4. 在pums2產生一個college虛擬變數，college為1若educ=16。接著檢視該變數的class。
 ```{r}
 college <- pums2$educ==16
-class(college)
-pums2.0 <-cbind(pums2, college)
+pums2<-cbind(pums2,college)
+class(pums2$college)
 ```
 
 
@@ -51,6 +59,7 @@ pums2.0 <-cbind(pums2, college)
 5. 觀察pums2不同學歷下的平均薪資與其離散度，你發現什麼？
 ```{r}
 pums2 %>% group_by(educ) %>% summarise(mean(wklywge))
+pums2 %>% group_by(educ) %>% summarise(var(wklywge))
 ```
 
 6. 薪資研究多採用取對數轉換後的薪資，請產生取對數後的薪資變數，並取名為lwklywge。[Hint: 使用log()函數]
@@ -79,4 +88,5 @@ bptest(lnmodel, data=pums2)
 ```
 
 10. 針對簡單迴歸模型，討論college係數可能有偏估的原因。[非電腦題，請用文字論述。]
+
 我認為可能是college這個係數本身還可以再繼續細分下去，比如說台政清交等名校的畢業生賺的應該比其他學校多，所以college係數會產生偏差

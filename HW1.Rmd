@@ -60,33 +60,33 @@ class(pums2$college)
 ```{r}
 pums2 %>% group_by(educ) %>% summarise(mean(wklywge))
 pums2 %>% group_by(educ) %>% summarise(var(wklywge))
+#具大學學歷者其不論每週實質薪資的平均值或是離散程度均較只具高中學歷者高。
 ```
 
 6. 薪資研究多採用取對數轉換後的薪資，請產生取對數後的薪資變數，並取名為lwklywge。[Hint: 使用log()函數]
 ```{r}
-lwklywge <-log(pums2$wklywge)
+pums2$wklywge%>%log() -> lwklywge
 ```
 
 7. 請使用簡單迴歸來估計college對lwklywge的影響，並討論其顯著度。
 ```{r}
-lnmodel<-lm(lwklywge~college)
-summary(lnmodel)
+model <- lwklywge~pums2$college
+out1 <- lm(model,pums2)
+summary(out1)
+#執行後顯示出具有大學學歷者其每週實質薪資會多出38.4%,而t-value也會顯著的落在拒絕域。
 ```
 
 8. 考慮迴歸殘差的有異質變異，且此變異可以被college捕捉。請針對簡單迴歸模型進行FGLS估計。
 ```{r}
 library(nlme)
-library(sandwich)
-library(lmtest)
-glsmodel<-gls(lwklywge~college, data=pums2, weights=varExp(form=~college))
-summary(glsmodel)
+out2 <- gls(model,data=pums2,weights=varIdent(form = ~1|college))
+summary(out2)
 ```
 
 9. 針對上題的異質變異進行BP檢定。
 ```{r}
-bptest(lnmodel, data=pums2)
+bptest(model,data=pums2)
 ```
 
 10. 針對簡單迴歸模型，討論college係數可能有偏估的原因。[非電腦題，請用文字論述。]
-
-我認為可能是college這個係數本身還可以再繼續細分下去，比如說台政清交等名校的畢業生賺的應該比其他學校多，所以college係數會產生偏差
+由於college變數代表教育程度，但影響實質薪資的原因可能不只教育程度，像是人脈、個人特質以及語言能力皆可能影響實質薪資，因此如果只考慮college這個變數，則會導致係數出現偏誤。

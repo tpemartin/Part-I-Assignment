@@ -27,11 +27,14 @@ $$
 
 ```{r model}
 model<-wklywge~educ+yob+qob+pob
+model1<-wklywge~educ
 ```
 
 ```{r}
 out1<-lm(model, data=pums)
 summary(out1)
+out2<-lm(model1, data=pums)
+summary(out2)
 ```
 ```{r}
 pums<-tbl_df(pums)
@@ -79,7 +82,7 @@ geom_point()
 
 ```{r}
 library(ggplot2)
-ggplot(data=pums,aes(x=log(educ),y=log(wklywge),color=factor(pob)))+
+ggplot(data=pums,aes(x=log(pob),y=log(wklywge),color=(educ)))+
   geom_point()
 ```
 > 我們只打算分析拿到高中學歷與大學學歷的薪資差異，令educ=12為高中學歷，而educ=16為大學學歷。
@@ -101,7 +104,9 @@ pums%>%filter(educ==12|educ==16)->pums2
 ```{r}
 college<-pums2$educ==16
 class(college)
-
+describe(college)
+pums2%>%ggplot(aes(x=college,y=wklywge))+
+geom_point()
 
 ```
 
@@ -121,20 +126,42 @@ log(pums2$wklywge)->lwklywge
 7. 請使用簡單迴歸來估計college對lwklywge的影響，並討論其顯著度。
 ```{r}
 lnmodel<-lm(lwklywge~college)
+summary(lnmodel)
+describe(lwklywge)
+
+llnmoedwl<-lm(lwklywge~college+yob+pob+qob,data=pums2)
+
+pums2%>%ggplot(aes(x=yob,y=lwklywge,color=college))+
+geom_point()
+pums2%>%ggplot(aes(x=pob,y=lwklywge,color=college))+
+geom_point()
+pums2%>%ggplot(aes(x=qob,y=lwklywge,color=college))+
+geom_point()
 ```
 
 8. 考慮迴歸殘差的有異質變異，且此變異可以被college捕捉。請針對簡單迴歸模型進行FGLS估計。
-```{r}
+```{r  GLS}
 library(nlme)
 library(sandwich)
 library(lmtest)
 glsmodel<-gls(lwklywge~college, data=pums2, weights=varExp(form=~college))
 summary(glsmodel)
+
+
 ```
 
 9. 針對上題的異質變異進行BP檢定。
-```{r} 
+```{r BPTEST} 
 bptest(lnmodel, data=pums2)
+
+
+coeftest(lnmodel,vcov=vcovHC(lnmodel,type='HC0'))
 ```
 
 10. 針對簡單迴歸模型，討論college係數可能有偏估的原因。[非電腦題，請用文字論述。]
+
+## 
+可能仍然遺漏了其他的解釋變數，故會導致college係數的偏誤。諸如性別、大學選擇系所、大學排名、所居住的地區．．．．等
+當忘記估算重要的解釋變數時，殘差值裡，且這些殘差值都有可能與college有交互影響，這樣就會影響college的準確度，並且違反了Ａ３假設
+
+##

@@ -40,7 +40,6 @@ pums %>% ggplot(aes(x=wklywge)) + geom_histogram()
 pums %>% ggplot(aes(x=log(wklywge))) + geom_histogram()
 pums %>% ggplot(aes(x=educ)) + geom_histogram()
 
-
 ## 每週薪資（wklywge）存在著明顯的右偏，且有很高的kurtosis，最好將其取對數使其變得平滑
 ```
 
@@ -84,7 +83,7 @@ library(sandwich)
 library(lmtest)
 coeftest(out1,vcov=vcovHC(out1,type="HC0"))
 
-# 模型簡單回歸后得到的，在其他條件不變的情況下，大學生的周薪資會比高中生的周薪資高38.4%，這一點在「使用Robust SE」進行t檢定時也是顯著的
+# 模型簡單回歸後得到的，在其他條件不變的情況下，大學生的周薪資會比高中生的周薪資高38.4%，這一點在「使用Robust SE」進行t檢定時也是顯著的
 ```
 
 8. 考慮迴歸殘差的有異質變異，且此變異可以被college捕捉。請針對簡單迴歸模型進行FGLS估計。

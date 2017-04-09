@@ -36,11 +36,8 @@ summary(out1)
 out2<-lm(model1, data=pums)
 summary(out2)
 ```
-```{r}
-pums<-tbl_df(pums)
 
-```
-```{r message=FALSE, warning=FALSE}
+```{r}
 library(psych)
 
 ```

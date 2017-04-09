@@ -24,6 +24,7 @@ pums <- read.csv("https://raw.githubusercontent.com/tpemartin/Part-I-Assignment/
 
 2. 初步觀察wklywge與educ這兩個變數，你注意到什麼？可自由發揮所挔據的觀察，可以是統計量或是圖形。
 ```{r}
+library(psych)
 psych::describe(pums)
 pums %>% ggplot(aes(x=wklywge)) + geom_histogram()
 pums %>% ggplot(aes(x=log(wklywge))) + geom_histogram()
@@ -45,7 +46,7 @@ pums2 <- filter(pums, educ==16 | educ==12)
 4. 在pums2產生一個college虛擬變數，college為1若educ=16。接著檢視該變數的class。
 ```{r}
 pums2$college <- pums2$educ==16
-class(college)
+class(pums2$college)
 ```
 
 > 要進行分群分析時，我們可以使用dplyr::group_by()來產生分群資料，之後用dplyr::summarise()來產生各別群組的特徵值。如 dd %>% group_by(x) %>% summarise(mean(y)) 代表「使用資料dd，依其中的x變數分群，並計算各群組y變數的平均值。

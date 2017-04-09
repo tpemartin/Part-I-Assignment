@@ -25,19 +25,21 @@ pums <- read.csv("https://raw.githubusercontent.com/tpemartin/Part-I-Assignment/
 2. 初步觀察wklywge與educ這兩個變數，你注意到什麼？可自由發揮所挔據的觀察，可以是統計量或是圖形。
 ```{r}
 library(psych)
-psych::describe(pums)
-pums %>% ggplot(aes(x=wklywge)) + geom_histogram()
-pums %>% ggplot(aes(x=log(wklywge))) + geom_histogram()
-pums %>% ggplot(aes(x=educ)) + geom_histogram()
+describe(pums)
+ggplot(pums,aes(x=educ))+geom_histogram()
+ggplot(pums,aes(x=educ,y=wklywge))+geom_point()
 
-## 每週薪資（wklywge）存在著明顯的右偏，且有很高的kurtosis，最好將其取對數使其變得平滑
+## 美國中年白人學歷大概位於高中,與我們父母親相仿
+## 薪資和教育有一定程度的相關性
 ```
 
 > 我們只打算分析拿到高中學歷與大學學歷的薪資差異，令educ=12為高中學歷，而educ=16為大學學歷。
 
 3. 使用dplyr裡的filter()留下符合條件的樣本，且樣本取名為pums2。[Hint: 此題需要了解邏輯判斷程式規則，同學可以參考https://cran.r-project.org/doc/manuals/r-release/R-intro.pdf裡的2.4節Logical vectors。要注意的是，要判斷是否educ為12，要寫成educ==12，而非educ=12]
 ```{r}
-pums2 <- filter(pums, educ==16 | educ==12)
+pums %>% filter(educ == 12|educ == 16) -> pums2
+pums2
+
 ```
 
 ***
@@ -55,7 +57,8 @@ class(pums2$college)
 ```{r}
 pums2 %>% group_by(college) %>% summarise(mean(wklywge),sd(wklywge))
 
-## 大學學歷比高中學歷的周薪資更高，並且，大學學歷的薪資波動範圍也高於高中學歷，有更大的離離散度
+## 我們可以從平均週薪發現教育和薪資成正比,大學學歷比高中學歷高了約200美金
+## 大學學歷標準差較大我推測為學歷愈高工作的選擇性可能較高,故波動性偏大
 ```
 
 6. 薪資研究多採用取對數轉換後的薪資，請產生取對數後的薪資變數，並取名為lwklywge。[Hint: 使用log()函數]
@@ -65,44 +68,34 @@ pums2$lwklywge <- log(pums2$wklywge)
 
 7. 請使用簡單迴歸來估計college對lwklywge的影響，並討論其顯著度。
 ```{r}
-model<-lwklywge~college
-out1<-lm(model,data=pums2)
-summary(out1)
+model <- lwklywge~college
+rem1 <- lm(model,data=pums2)
 
 library(sandwich)
 library(lmtest)
-coeftest(out1,vcov=vcovHC(out1,type="HC0"))
-
-# 模型簡單回歸后得到的，在其他條件不變的情況下，大學生的周薪資會比高中生的周薪資高38.4%，這一點在異質變數的情況也是顯著的
+coeftest(rem1,vcov=vcovHC(rem1,type="HC0"))
 ```
 
 8. 考慮迴歸殘差的有異質變異，且此變異可以被college捕捉。請針對簡單迴歸模型進行FGLS估計。
 ```{r}
 library(nlme)
-
-pums2$predicted<-predict(out1)
-pums2$residuals<-residuals(out1)
+pums2$predicted <- predict(rem1)
+pums2$residuals <- residuals(rem1)
 pums2 %>% ggplot(aes(x=college,y=(residuals)^2))+geom_point()
-summary(out1)
 
 out2<-gls(model,data=pums2,weights = varIdent(form = ~1| college))
 summary(out2)
+
 ```
 
 9. 針對上題的異質變異進行BP檢定。
 ```{r}
 bptest(model,data=pums2)
+
 ```
 
 10. 針對簡單迴歸模型，討論college係數可能有偏估的原因。[非電腦題，請用文字論述。]
 
-# caiguoliang
-college係數可能有偏誤的原因是
-（1）模型可能遺漏了重要的解釋變數，如性別，性別可能會影響薪資，這樣性別就包含在簡單回歸的殘差項里，同時，性別也可能會影響教育，例如重男輕女、伊斯蘭保守嚴重的地區，女性的教育程度可能會比男性低，這樣，假設A.3就不成立，進而估計出來的college係數也可能是偏誤的
-（2）可能存在著內生性問題，薪資會受學歷影響，但反過來，我們不能排除學歷也可能會收到薪資的影響，比如一些家庭經濟條件較差的人，當他有較高的薪資后，會選擇進修，以提高自己的職場能力，進而會出現工資高的人，學歷也會更高的情況。這樣，殘差項與被解釋變數Y有關，X又收到Y影響，即X與殘差項會相關，即違反了假設A.3
-[答案有些問題，這個資料只有「男性」」
-
-# nijack89
-[答案有問題]
-我認為可能是college這個係數本身還可以再繼續細分下去，比如說台政清交等名校的畢業生賺的應該比其他學校多，所以college係數會產生偏差
-
+college係數可能有偏誤的原因:
+1. 模型遺漏了重要變數，這是絕對的。例如家庭環境，它可能會影響你的人脈和資源的優渥，進而影響你的工作和薪資多寡。家庭環境好，有錢人更願意付錢讓自己的小孩更優秀，更多才多藝，甚至繼承家業。而家境不好的，平常無法累積才藝和語言能力，還要考慮到照顧家人和打工賺錢，無形之中就算學歷相同，未來的待遇也可能不同。
+2. 可能有交互作用，也就是薪資同樣影響學歷。我們可以知道薪資愈高的人能力大多相對愈高，當他的工作需要更多能力完善或需要更高的學歷的時候，有些人會選擇進修，相對於薪資低的工作或許更需要的是經驗累積而並非學歷，但創業者和公職人員不適用於此。

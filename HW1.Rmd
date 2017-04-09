@@ -69,19 +69,23 @@ pums2 %>%
 
 7. 請使用簡單迴歸來估計college對lwklywge的影響，並討論其顯著度。
 ```{r}
-model <- lwklywge~ college
-lm(model, data= pums2)
-
+model<-lwlywge~college
+output1<- lm(lwlywge~ college, data = pums2)
+summary(output1)
 ```
 
 8. 考慮迴歸殘差的有異質變異，且此變異可以被college捕捉。請針對簡單迴歸模型進行FGLS估計。
 ```{r}
-
+library(sandwich)
+library(lmtest)
+library(nlme)
+output2 <- gls(model,data= pums2,weights=varExp(form=~college))
+summary(output2)
 ```
 
 9. 針對上題的異質變異進行BP檢定。
 ```{r}
-
+bptest(model,varformula=~college, data = pums2)
 ```
 
 10. 針對簡單迴歸模型，討論college係數可能有偏估的原因。[非電腦題，請用文字論述。]

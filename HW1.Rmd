@@ -15,7 +15,8 @@ library(ggplot2)
 
 1. 下載作業中有一個資料檔pp.csv，請將它引入R且資料名稱叫做pums以方便後續討論。[hint: 可使用environment視窗的Import Datasets選單按鍵，但記得把對應程式貼進作業檔]
 ```{r}
-pums <- read.csv("C:/Users/asus/Desktop/School/Graduate School TW/Quan/Part-I-Assignment/pp.csv")
+library(readr)
+pums <- read.csv("https://raw.githubusercontent.com/tpemartin/Part-I-Assignment/master/pp.csv")
 ```
 
 
@@ -23,7 +24,12 @@ pums <- read.csv("C:/Users/asus/Desktop/School/Graduate School TW/Quan/Part-I-As
 
 2. 初步觀察wklywge與educ這兩個變數，你注意到什麼？可自由發揮所挔據的觀察，可以是統計量或是圖形。
 ```{r}
-lm(wklywge~ educ, pums)
+ggplot(pums,aes(x=educ, y=wklywge))+geom_point()+geom_smooth()
+#X軸為教育程度，Y軸為每週實質薪資，可看出兩者稍微呈現正相（但不明顯）
+ggplot(pums,aes(x=educ, y=log(wklywge)))+geom_point()+geom_smooth()
+#X軸為教育程度，Y軸為每週實質薪資取log，可看出兩者稍微呈現正相關（比較明顯）
+lm(wklywge~educ,pums)
+#進行OLS估計後可以看出教育年限的係數為27.75，故當教育程度越高則每週實質薪資越高（正相關）
 ```
 
 
@@ -31,7 +37,8 @@ lm(wklywge~ educ, pums)
 
 3. 使用dplyr裡的filter()留下符合條件的樣本，且樣本取名為pums2。[Hint: 此題需要了解邏輯判斷程式規則，同學可以參考https://cran.r-project.org/doc/manuals/r-release/R-intro.pdf裡的2.4節Logical vectors。要注意的是，要判斷是否educ為12，要寫成educ==12，而非educ=12]
 ```{r}
-pums2 <- filter(pums, educ==16 | educ==12)
+filter(pums,educ == 12 | educ == 16) -> pums2
+pums2
 ```
 
 
@@ -40,9 +47,8 @@ pums2 <- filter(pums, educ==16 | educ==12)
 
 4. 在pums2產生一個college虛擬變數，college為1若educ=16。接著檢視該變數的class。
 ```{r}
-college <- pums2$educ==16
-class(college)
-pums2.0 <-cbind(pums2, college)
+pums2$college <- pums2$educ==16
+class(pums2$college)
 ```
 
 
@@ -50,34 +56,51 @@ pums2.0 <-cbind(pums2, college)
 
 5. 觀察pums2不同學歷下的平均薪資與其離散度，你發現什麼？
 ```{r}
-pums2 %>% group_by(educ) %>% summarise(mean(wklywge))
+pums2 %>% group_by(college) %>% summarise(mean(wklywge),sd(wklywge))
+#大學學歷比高中學歷的週薪資更高，但離散程度較大
 ```
 
 6. 薪資研究多採用取對數轉換後的薪資，請產生取對數後的薪資變數，並取名為lwklywge。[Hint: 使用log()函數]
 ```{r}
-lwklywge <-log(pums2$wklywge)
+pums2$lwklywge <- log(pums2$wklywge)
 ```
 
 7. 請使用簡單迴歸來估計college對lwklywge的影響，並討論其顯著度。
 ```{r}
-lnmodel<-lm(lwklywge~college)
-summary(lnmodel)
+model <- lwklywge~college
+out1 <- lm(model,data=pums2)
+library(sandwich)
+library(lmtest)
+coeftest(out1,vcov=vcovHC(out1,type="HC0"))
+#作模型簡單回歸後得到：在其他條件不變的情況下，大學生的週薪資會比高中生的週薪資高38.4%，
+#使用Robust SE進行檢定也是顯著的
 ```
 
 8. 考慮迴歸殘差的有異質變異，且此變異可以被college捕捉。請針對簡單迴歸模型進行FGLS估計。
 ```{r}
 library(nlme)
-library(sandwich)
-library(lmtest)
-glsmodel<-gls(lwklywge~college, data=pums2, weights=varExp(form=~college))
-summary(glsmodel)
+pums2$predicted<-predict(out1)
+pums2$residuals<-residuals(out1)
+pums2 %>% ggplot(aes(x=college,y=(residuals)^2))+geom_point()
+out2<-gls(model,data=pums2,weights = varIdent(form = ~1| college))
+summary(out2)
 ```
 
 9. 針對上題的異質變異進行BP檢定。
 ```{r}
-bptest(lnmodel, data=pums2)
+bptest(model,data=pums2)
+#p-value=0.2688>0.05，do not reject Ho:齊質變異數
 ```
 
 10. 針對簡單迴歸模型，討論college係數可能有偏估的原因。[非電腦題，請用文字論述。]
 
-我認為可能是college這個係數本身還可以再繼續細分下去，比如說台政清交等名校的畢業生賺的應該比其他學校多，所以college係數會產生偏差
+可能會有內生性問題，即學歷也可能會受到薪資的影響
+由以下結果可看出學歷與薪資呈現正相關，使用Robust SE進行檢定也是顯著的
+此問題可用2SLS解決
+```{r}
+mode2 <- college~lwklywge
+out3 <- lm(mode2,data=pums2)
+library(sandwich)
+library(lmtest)
+coeftest(out3,vcov=vcovHC(out3,type="HC0"))
+```

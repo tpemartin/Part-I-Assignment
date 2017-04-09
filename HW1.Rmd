@@ -8,9 +8,10 @@ output: html_notebook
 
 一開始請執行
 ```{r}
-rm(list=ls())
-library(dplyr)
-library(ggplot2)
+rm(list=ls()) #清空環境
+library(gcookbook) # 使用R Graphic Cookbook的範例資料
+library(ggplot2) 
+library(tidyr)
 ```
 
 1. 下載作業中有一個資料檔pp.csv，請將它引入R且資料名稱叫做pums以方便後續討論。[hint: 可使用environment視窗的Import Datasets選單按鍵，但記得把對應程式貼進作業檔]
@@ -23,7 +24,11 @@ pums <- read.csv("~/Part-I-Assignment/pp.csv")
 
 2. 初步觀察wklywge與educ這兩個變數，你注意到什麼？可自由發揮所挔據的觀察，可以是統計量或是圖形。
 ```{r}
-describe(pums)
+rmodel<-lm(log(wklywge)~educ,data=pums)
+ #建立迴規模式lm(Y~X)，並命名為model
+
+summary(rmodel) #檢視迴歸統計量
+
 ```
 ```{r}
 pums %>% ggplot(aes(x=educ,y=log(wklywge))) + geom_point()
@@ -63,7 +68,7 @@ lwklywge <-log(pums2$wklywge)
 
 7. 請使用簡單迴歸來估計college對lwklywge的影響，並討論其顯著度。
 ```{r}
-lnmodel<-lm(lwklywge~college)
+lnmodel<-lm(lwklywge~college,data=pums2)
 summary(lnmodel)
 ```
 

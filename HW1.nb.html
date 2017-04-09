@@ -177,10 +177,11 @@ $(document).ready(function () {
 <p>一開始請執行</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucm0obGlzdD1scygpKVxubGlicmFyeShkcGx5cilcbmxpYnJhcnkoZ2dwbG90MilcbmBgYCJ9 -->
-<pre class="r"><code>rm(list=ls())
-library(dplyr)
-library(ggplot2)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucm0obGlzdD1scygpKSAj5riF56m655Kw5aKDXG5saWJyYXJ5KGdjb29rYm9vaykgIyDkvb/nlKhSIEdyYXBoaWMgQ29va2Jvb2vnmoTnr4Tkvovos4fmlplcbmxpYnJhcnkoZ2dwbG90MikgXG5saWJyYXJ5KHRpZHlyKVxuYGBgIn0= -->
+<pre class="r"><code>rm(list=ls()) #清空環境
+library(gcookbook) # 使用R Graphic Cookbook的範例資料
+library(ggplot2) 
+library(tidyr)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -202,24 +203,30 @@ library(ggplot2)</code></pre>
 </ol>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGVzY3JpYmUocHVtcylcbmBgYCJ9 -->
-<pre class="r"><code>describe(pums)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucm1vZGVsPC1sbShsb2cod2tseXdnZSl+ZWR1YyxkYXRhPXB1bXMpXG4gI+W7uueri+i/tOimj+aooeW8j2xtKFl+WCnvvIzkuKblkb3lkI3ngrptb2RlbFxuc3VtbWFyeShybW9kZWwpICPmqqLoppbov7TmrbjntbHoqIjph49cbmBgYCJ9 -->
+<pre class="r"><code>rmodel&lt;-lm(log(wklywge)~educ,data=pums)
+ #建立迴規模式lm(Y~X)，並命名為model
+summary(rmodel) #檢視迴歸統計量</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiICAgICAgICB2YXJzICAgICBuICAgIG1lYW4gICAgICBzZCAgbWVkaWFuIHRyaW1tZWQgICAgIG1hZCAgIG1pbiAgICAgIG1heCAgICByYW5nZSAgc2tld1xuWCAgICAgICAgICAxIDEwMDAwIDUwMDAuNTAgMjg4Ni45MCA1MDAwLjUwIDUwMDAuNTAgMzcwNi41MCAgMS4wMCAxMDAwMC4wMCAgOTk5OS4wMCAgMC4wMFxuZWR1YyAgICAgICAyIDEwMDAwICAgMTIuNzcgICAgMy4yOSAgIDEyLjAwICAgMTIuNzUgICAgMi45NyAgMC4wMCAgICAyMC4wMCAgICAyMC4wMCAtMC4wMVxueW9iICAgICAgICAzIDEwMDAwICAgMzQuNTkgICAgMi45MyAgIDM1LjAwICAgMzQuNjEgICAgNC40NSAzMC4wMCAgICAzOS4wMCAgICAgOS4wMCAtMC4wNVxucW9iICAgICAgICA0IDEwMDAwICAgIDIuNTAgICAgMS4xMSAgICAzLjAwICAgIDIuNTAgICAgMS40OCAgMS4wMCAgICAgNC4wMCAgICAgMy4wMCAtMC4wMVxucG9iICAgICAgICA1IDEwMDAwICAgMzAuOTggICAxNC4xMyAgIDM0LjAwICAgMzEuNDkgICAxNC44MyAgMS4wMCAgICA1Ni4wMCAgICA1NS4wMCAtMC4yNlxud2tseXdnZSAgICA2IDEwMDAwICA0MzkuNDkgIDM0NS43MiAgMzg0LjcxICA0MDMuMTIgIDE3MS4xMSAgMC4yOSAxMjAwMC44MyAxMjAwMC41NCAxMi4wMlxuICAgICAgICBrdXJ0b3NpcyAgICBzZVxuWCAgICAgICAgICAtMS4yMCAyOC44N1xuZWR1YyAgICAgICAgMC41NCAgMC4wM1xueW9iICAgICAgICAtMS4yNyAgMC4wM1xucW9iICAgICAgICAtMS4zNCAgMC4wMVxucG9iICAgICAgICAtMC44MiAgMC4xNFxud2tseXdnZSAgIDI4Ny4xOSAgMy40NlxuIn0= -->
-<pre><code>        vars     n    mean      sd  median trimmed     mad   min      max    range  skew
-X          1 10000 5000.50 2886.90 5000.50 5000.50 3706.50  1.00 10000.00  9999.00  0.00
-educ       2 10000   12.77    3.29   12.00   12.75    2.97  0.00    20.00    20.00 -0.01
-yob        3 10000   34.59    2.93   35.00   34.61    4.45 30.00    39.00     9.00 -0.05
-qob        4 10000    2.50    1.11    3.00    2.50    1.48  1.00     4.00     3.00 -0.01
-pob        5 10000   30.98   14.13   34.00   31.49   14.83  1.00    56.00    55.00 -0.26
-wklywge    6 10000  439.49  345.72  384.71  403.12  171.11  0.29 12000.83 12000.54 12.02
-        kurtosis    se
-X          -1.20 28.87
-educ        0.54  0.03
-yob        -1.27  0.03
-qob        -1.34  0.01
-pob        -0.82  0.14
-wklywge   287.19  3.46</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiXG5DYWxsOlxubG0oZm9ybXVsYSA9IGxvZyh3a2x5d2dlKSB+IGVkdWMsIGRhdGEgPSBwdW1zKVxuXG5SZXNpZHVhbHM6XG4gICAgTWluICAgICAgMVEgIE1lZGlhbiAgICAgIDNRICAgICBNYXggXG4tNy40MzY1IC0wLjI0MDggIDAuMDc3NyAgMC4zMjkzICAzLjU0NjQgXG5cbkNvZWZmaWNpZW50czpcbiAgICAgICAgICAgIEVzdGltYXRlIFN0ZC4gRXJyb3IgdCB2YWx1ZSBQcig+fHR8KSAgICBcbihJbnRlcmNlcHQpIDUuMDEzNjMxICAgMC4wMjU0NDEgIDE5Ny4wNyAgIDwyZS0xNiAqKipcbmVkdWMgICAgICAgIDAuMDY5MzkyICAgMC4wMDE5MjkgICAzNS45OCAgIDwyZS0xNiAqKipcbi0tLVxuU2lnbmlmLiBjb2RlczogIDAg4oCYKioq4oCZIDAuMDAxIOKAmCoq4oCZIDAuMDEg4oCYKuKAmSAwLjA1IOKAmC7igJkgMC4xIOKAmCDigJkgMVxuXG5SZXNpZHVhbCBzdGFuZGFyZCBlcnJvcjogMC42MzQ2IG9uIDk5OTggZGVncmVlcyBvZiBmcmVlZG9tXG5NdWx0aXBsZSBSLXNxdWFyZWQ6ICAwLjExNDYsXHRBZGp1c3RlZCBSLXNxdWFyZWQ6ICAwLjExNDUgXG5GLXN0YXRpc3RpYzogIDEyOTQgb24gMSBhbmQgOTk5OCBERiwgIHAtdmFsdWU6IDwgMi4yZS0xNlxuIn0= -->
+<pre><code>
+Call:
+lm(formula = log(wklywge) ~ educ, data = pums)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-7.4365 -0.2408  0.0777  0.3293  3.5464 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) 5.013631   0.025441  197.07   &lt;2e-16 ***
+educ        0.069392   0.001929   35.98   &lt;2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.6346 on 9998 degrees of freedom
+Multiple R-squared:  0.1146,    Adjusted R-squared:  0.1145 
+F-statistic:  1294 on 1 and 9998 DF,  p-value: &lt; 2.2e-16</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-chunk-begin -->
@@ -274,7 +281,7 @@ class(college)</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucHVtczIgJT4lIGdyb3VwX2J5KGVkdWMpICU+JSBzdW1tYXJpc2UobWVhbih3a2x5d2dlKSlcbmBgYCJ9 -->
 <pre class="r"><code>pums2 %&gt;% group_by(educ) %&gt;% summarise(mean(wklywge))</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibmNvbCI6MiwibnJvdyI6Mn0sInJkZiI6Ikg0c0lBQUFBQUFBQUF3dHlpVERpaXVCaVlHQmdZbUJtWm1aZ1lnWXlXWmlBQkNNREN3TW5pSzVnWUdBV0JpdGdZT0NGMGp4QUxBREVmQ0MrUTJYMGhOZVBwZm9kbXFxbXIrMm9lb0ptQUd0eVRtSnhNVlFEVEpBckpiRWtVUyt0S0RFM0ZWMTVIbEFNcHB3SktzaVNtbEthREdYejVxWW01bW1VWitkVWxxZW5hcUxwNWl6S0w5ZURtUUIyYlFPUStQLy8vejhnOVE5Tk1YdCtRVWxtZmg1UUtSUElnNnhvYm1Rc1FoUGdMODBER1oyaW01eFJtcGV0YXc3eUIxZ2FBbmloYkNaVU5zaEs1djlRbzFpaFJyR2w1cVZuNXFYQy9KeVRtSlNhQStYd0FiMEE5b0ZlUVZGbVhna3N3SUNpeFhvbCtTV0pNSFZjeWZrNU1CR3czeGorQVFBL1RtUjh6Z0VBQUE9PSJ9 -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibmNvbCI6MiwibnJvdyI6Mn0sInJkZiI6Ikg0c0lBQUFBQUFBQUF3dHlpVERpaXVCaVlHQmdZbUJtWm1aZ1lnWXlXWmlBQkNNREN3TW5pSzVnWUdBV0JpdGdZT0NGMGp4QUxBREVmQ0MrUTJYMGhOZVBwZm9kbXFxbXIrMm9lb0ptQUd0eVRtSnhNVlFEVEpBckpiRWtVUyt0S0RFM0ZWMTVIbEFNcHB3SktzaVNtbEthREdYejVxWW01bW1VWitkVWxxZW5hcUxwNWl6S0w5ZURtUUIyYlFPUStQLy8vejhnOVE5Tk1YdCtRVWxtZmg1UUtSUElnNnhvYm1Rc1FoTVFLTTBER1oyaW01eFJtcGV0YTJZQzhnaFlIZ0o0b1d3bVZEYklUdWIvVUxOWW9XYXhwZWFsWithbHdqeWRrNWlVbWdQbDhBSDlBUGFDWGtGUlpsNEpMTVNBb3NWNkpma2xpVEIxWE1uNU9UQVJzT2NZL2dFQVBuVDdRYzhCQUFBPSJ9 -->
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":["educ"],"name":[1],"type":["int"],"align":["right"]},{"label":["mean(wklywge)"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"12","2":"405.7229"},{"1":"16","2":"591.3241"}],"options":{"columns":{"min":{},"max":[10],"total":[2]},"rows":{"min":[10],"max":[10],"total":[2]},"pages":{}}}
@@ -298,11 +305,29 @@ class(college)</code></pre>
 </ol>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubG5tb2RlbDwtbG4obHdrbHl3Z2V+Y29sbGVnZSlcbmBgYCJ9 -->
-<pre class="r"><code>lnmodel&lt;-ln(lwklywge~college)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubG5tb2RlbDwtbG0obHdrbHl3Z2V+Y29sbGVnZSxkYXRhPXB1bXMyKVxuc3VtbWFyeShsbm1vZGVsKVxuYGBgIn0= -->
+<pre class="r"><code>lnmodel&lt;-lm(lwklywge~college,data=pums2)
+summary(lnmodel)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoi6Yyv6KqkOiDmspLmnInpgJnlgIvlh73mlbggXCJsblwiXG4ifQ== -->
-<pre><code>錯誤: 沒有這個函數 &quot;ln&quot;</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiXG5DYWxsOlxubG0oZm9ybXVsYSA9IGx3a2x5d2dlIH4gY29sbGVnZSwgZGF0YSA9IHB1bXMyKVxuXG5SZXNpZHVhbHM6XG4gICAgTWluICAgICAgMVEgIE1lZGlhbiAgICAgIDNRICAgICBNYXggXG4tNC42MzkzIC0wLjIzOTYgIDAuMDc1NCAgMC4zMTg3ICAzLjUzOTkgXG5cbkNvZWZmaWNpZW50czpcbiAgICAgICAgICAgIEVzdGltYXRlIFN0ZC4gRXJyb3IgdCB2YWx1ZSBQcig+fHR8KSAgICBcbihJbnRlcmNlcHQpIDUuODUyODI2ICAgMC4wMDk0NjQgIDYxOC40MiAgIDwyZS0xNiAqKipcbmNvbGxlZ2VUUlVFIDAuMzg0Mjc1ICAgMC4wMjA0NjggICAxOC43NyAgIDwyZS0xNiAqKipcbi0tLVxuU2lnbmlmLiBjb2RlczogIDAg4oCYKioq4oCZIDAuMDAxIOKAmCoq4oCZIDAuMDEg4oCYKuKAmSAwLjA1IOKAmC7igJkgMC4xIOKAmCDigJkgMVxuXG5SZXNpZHVhbCBzdGFuZGFyZCBlcnJvcjogMC41ODEgb24gNDc5MiBkZWdyZWVzIG9mIGZyZWVkb21cbk11bHRpcGxlIFItc3F1YXJlZDogIDAuMDY4NTIsXHRBZGp1c3RlZCBSLXNxdWFyZWQ6ICAwLjA2ODMyIFxuRi1zdGF0aXN0aWM6IDM1Mi41IG9uIDEgYW5kIDQ3OTIgREYsICBwLXZhbHVlOiA8IDIuMmUtMTZcbiJ9 -->
+<pre><code>
+Call:
+lm(formula = lwklywge ~ college, data = pums2)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-4.6393 -0.2396  0.0754  0.3187  3.5399 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) 5.852826   0.009464  618.42   &lt;2e-16 ***
+collegeTRUE 0.384275   0.020468   18.77   &lt;2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.581 on 4792 degrees of freedom
+Multiple R-squared:  0.06852,   Adjusted R-squared:  0.06832 
+F-statistic: 352.5 on 1 and 4792 DF,  p-value: &lt; 2.2e-16</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -311,6 +336,43 @@ class(college)</code></pre>
 </ol>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShubG1lKVxubGlicmFyeShzYW5kd2ljaClcbmxpYnJhcnkobG10ZXN0KVxuZ2xzbW9kZWw8LWdscyhsd2tseXdnZX5jb2xsZWdlLCBkYXRhPXB1bXMyLCB3ZWlnaHRzPXZhckV4cChmb3JtPX5jb2xsZWdlKSlcbnN1bW1hcnkoZ2xzbW9kZWwpXG5gYGAifQ== -->
+<pre class="r"><code>library(nlme)
+library(sandwich)
+library(lmtest)
+glsmodel&lt;-gls(lwklywge~college, data=pums2, weights=varExp(form=~college))
+summary(glsmodel)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiR2VuZXJhbGl6ZWQgbGVhc3Qgc3F1YXJlcyBmaXQgYnkgUkVNTFxuICBNb2RlbDogbHdrbHl3Z2UgfiBjb2xsZWdlIFxuICBEYXRhOiBwdW1zMiBcbiAgICAgICBBSUMgICAgICBCSUMgICAgbG9nTGlrXG4gIDg0MTEuOTU1IDg0MzcuODU0IC00MjAxLjk3N1xuXG5WYXJpYW5jZSBmdW5jdGlvbjpcbiBTdHJ1Y3R1cmU6IEV4cG9uZW50aWFsIG9mIHZhcmlhbmNlIGNvdmFyaWF0ZVxuIEZvcm11bGE6IH5jb2xsZWdlIFxuIFBhcmFtZXRlciBlc3RpbWF0ZXM6XG4gICAgICBleHBvbiBcbi0wLjA2NDkzMTIxIFxuXG5Db2VmZmljaWVudHM6XG4gICAgICAgICAgICAgICBWYWx1ZSAgIFN0ZC5FcnJvciAgdC12YWx1ZSBwLXZhbHVlXG4oSW50ZXJjZXB0KSA1Ljg1MjgyNiAwLjAwOTU4OTgwMiA2MTAuMzE3NyAgICAgICAwXG5jb2xsZWdlVFJVRSAwLjM4NDI3NSAwLjAxOTcyMTU5OCAgMTkuNDg1MCAgICAgICAwXG5cbiBDb3JyZWxhdGlvbjogXG4gICAgICAgICAgICAoSW50cilcbmNvbGxlZ2VUUlVFIC0wLjQ4NlxuXG5TdGFuZGFyZGl6ZWQgcmVzaWR1YWxzOlxuICAgICAgIE1pbiAgICAgICAgIFExICAgICAgICBNZWQgICAgICAgICBRMyAgICAgICAgTWF4IFxuLTcuODgwMDM2MSAtMC40MTg1MDQ4ICAwLjEzMDc0MzAgIDAuNTQ4MjI1MiAgNi4wMTI2OTIwIFxuXG5SZXNpZHVhbCBzdGFuZGFyZCBlcnJvcjogMC41ODg3Mzg5IFxuRGVncmVlcyBvZiBmcmVlZG9tOiA0Nzk0IHRvdGFsOyA0NzkyIHJlc2lkdWFsXG4ifQ== -->
+<pre><code>Generalized least squares fit by REML
+  Model: lwklywge ~ college 
+  Data: pums2 
+       AIC      BIC    logLik
+  8411.955 8437.854 -4201.977
+
+Variance function:
+ Structure: Exponential of variance covariate
+ Formula: ~college 
+ Parameter estimates:
+      expon 
+-0.06493121 
+
+Coefficients:
+               Value   Std.Error  t-value p-value
+(Intercept) 5.852826 0.009589802 610.3177       0
+collegeTRUE 0.384275 0.019721598  19.4850       0
+
+ Correlation: 
+            (Intr)
+collegeTRUE -0.486
+
+Standardized residuals:
+       Min         Q1        Med         Q3        Max 
+-7.8800361 -0.4185048  0.1307430  0.5482252  6.0126920 
+
+Residual standard error: 0.5887389 
+Degrees of freedom: 4794 total; 4792 residual</code></pre>
+<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <ol start="9" style="list-style-type: decimal">
@@ -318,6 +380,16 @@ class(college)</code></pre>
 </ol>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYnB0ZXN0KGxubW9kZWwsIGRhdGE9cHVtczIpXG5gYGAifQ== -->
+<pre class="r"><code>bptest(lnmodel, data=pums2)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5cdHN0dWRlbnRpemVkIEJyZXVzY2gtUGFnYW4gdGVzdFxuXG5kYXRhOiAgbG5tb2RlbFxuQlAgPSAxLjIyMjksIGRmID0gMSwgcC12YWx1ZSA9IDAuMjY4OFxuIn0= -->
+<pre><code>
+    studentized Breusch-Pagan test
+
+data:  lnmodel
+BP = 1.2229, df = 1, p-value = 0.2688</code></pre>
+<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <ol start="10" style="list-style-type: decimal">
@@ -326,7 +398,7 @@ class(college)</code></pre>
 <p>我認為可能是college這個係數本身還可以再繼續細分下去，比如說台政清交等名校的畢業生賺的應該比其他學校多，所以college係數會產生偏差</p>
 <!-- rnb-text-end -->
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAi56ys5LiA5qyh6Zu76IWm5L2c5qWtIgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKLS0tCuS9nOalremZpOS6huiuk+WQjOWtuOaqouimluiqsuWgguaJgOWtuOeoi+W8j+Wklu+8jOacieS6m+mhjOebruWPquacg+e1puS9oOacquaVmemBjueahOWHveaVuOW7uuitsO+8iOe0lOeCuuW7uuitsO+8jOS9oOS5n+WPr+S7peS4jeS9v+eUqO+8ie+8jOS9oOW/hemcgOS9v+eUqEhlbHDmiJbntrLot6/mn6XlsIvljrvkuobop6Plh73mlbjnmoTmraPnorrkvb/nlKjvvJvmkJzoqaLmraPnorrnqIvlvI/lh73mlbjkvb/nlKjnmoTog73lipvvvIzkuZ/mmK/nqIvlvI/oqK3oqIjnmoTln7rmnKzlip/jgIIKCuaVmeiCsuiIh+iWquizhyAKCuS4gOmWi+Wni+iri+Wft+ihjApgYGB7cn0Kcm0obGlzdD1scygpKQpsaWJyYXJ5KGRwbHlyKQpsaWJyYXJ5KGdncGxvdDIpCmBgYAoKMS4g5LiL6LyJ5L2c5qWt5Lit5pyJ5LiA5YCL6LOH5paZ5qqUcHAuY3N277yM6KuL5bCH5a6D5byV5YWlUuS4lOizh+aWmeWQjeeoseWPq+WBmnB1bXPku6Xmlrnkvr/lvoznuozoqI7oq5bjgIJbaGludDog5Y+v5L2/55SoZW52aXJvbm1lbnToppbnqpfnmoRJbXBvcnQgRGF0YXNldHPpgbjllq7mjInpjbXvvIzkvYboqJjlvpfmiorlsI3mh4nnqIvlvI/osrzpgLLkvZzmpa3mqpRdCmBgYHtyfQpwdW1zIDwtIHJlYWQuY3N2KCJ+L1BhcnQtSS1Bc3NpZ25tZW50L3BwLmNzdiIpCmBgYAoKCj4g5L2c5qWt6LOH5paZ5L6G6Ieq576O5ZyLMTk4MOW5tOmHneWwjeS4reW5tOeZveS6uuWLnuWLleiAheeahOiqv+afpe+8jOmAmeijoeaIkeWAkemXnOW/g+eahFnorormlbjmmK/ku6UyMDAz5bm054K65Z+65pyf55qE5a+m6LOq5q+P6YCx6Jaq6LOHKHdrbHl3Z2Up77yMWOiuiuaVuOaYr+aVmeiCsuW5tOmZkChlZHVjKS4g5oiR5YCR5oOz5om+5Ye65pWZ6IKy55qE5aCx6YWs5pyJ5aSa6auY77yf5Lmf5bCx5piv5aSa5Y+X6bue5pWZ6IKy77yM6Jaq6LOH5Y+v5Lul5o+Q6auY5aSa5bCR77yfCgoyLiDliJ3mraXop4Dlr593a2x5d2dl6IiHZWR1Y+mAmeWFqeWAi+iuiuaVuO+8jOS9oOazqOaEj+WIsOS7gOm6vO+8n+WPr+iHqueUseeZvOaPruaJgOaMlOaTmueahOingOWvn++8jOWPr+S7peaYr+e1seioiOmHj+aIluaYr+WcluW9ouOAggpgYGB7cn0KZGVzY3JpYmUocHVtcykKYGBgCmBgYHtyfQpwdW1zICU+JSBnZ3Bsb3QoYWVzKHg9ZWR1Yyx5PWxvZyh3a2x5d2dlKSkpICsgZ2VvbV9wb2ludCgpCmBgYAoKCj4g5oiR5YCR5Y+q5omT566X5YiG5p6Q5ou/5Yiw6auY5Lit5a245q236IiH5aSn5a245a245q2355qE6Jaq6LOH5beu55Ww77yM5LukZWR1Yz0xMueCuumrmOS4reWtuOatt++8jOiAjGVkdWM9MTbngrrlpKflrbjlrbjmrbfjgIIKCjMuIOS9v+eUqGRwbHly6KOh55qEZmlsdGVyKCnnlZnkuIvnrKblkIjmop3ku7bnmoTmqKPmnKzvvIzkuJTmqKPmnKzlj5blkI3ngrpwdW1zMuOAgltIaW50OiDmraTpoYzpnIDopoHkuobop6Ppgo/ovK/liKTmlrfnqIvlvI/opo/liYfvvIzlkIzlrbjlj6/ku6Xlj4PogINodHRwczovL2NyYW4uci1wcm9qZWN0Lm9yZy9kb2MvbWFudWFscy9yLXJlbGVhc2UvUi1pbnRyby5wZGboo6HnmoQyLjTnr4BMb2dpY2FsIHZlY3RvcnPjgILopoHms6jmhI/nmoTmmK/vvIzopoHliKTmlrfmmK/lkKZlZHVj54K6MTLvvIzopoHlr6vmiJBlZHVjPT0xMu+8jOiAjOmdnmVkdWM9MTJdCmBgYHtyfQpwdW1zMiA8LSBmaWx0ZXIocHVtcywgZWR1Yz09MTYgfCBlZHVjPT0xMikKYGBgCgoKKioqCuS7peS4i+WVj+mhjOiri+S9v+eUqHB1bXMy6LOH5paZCgo0LiDlnKhwdW1zMueUoueUn+S4gOWAi2NvbGxlZ2XomZvmk6zorormlbjvvIxjb2xsZWdl54K6MeiLpWVkdWM9MTbjgILmjqXokZfmqqLoppboqbLorormlbjnmoRjbGFzc+OAggpgYGB7cn0KY29sbGVnZSA8LSBwdW1zMiRlZHVjPT0xNgpjbGFzcyhjb2xsZWdlKQpwdW1zMi4wIDwtY2JpbmQocHVtczIsIGNvbGxlZ2UpCmBgYAoKCj4g6KaB6YCy6KGM5YiG576k5YiG5p6Q5pmC77yM5oiR5YCR5Y+v5Lul5L2/55SoZHBseXI6Omdyb3VwX2J5KCnkvobnlKLnlJ/liIbnvqTos4fmlpnvvIzkuYvlvoznlKhkcGx5cjo6c3VtbWFyaXNlKCnkvobnlKLnlJ/lkITliKXnvqTntYTnmoTnibnlvrXlgLzjgILlpoIgZGQgJT4lIGdyb3VwX2J5KHgpICU+JSBzdW1tYXJpc2UobWVhbih5KSkg5Luj6KGo44CM5L2/55So6LOH5paZZGTvvIzkvp3lhbbkuK3nmoR46K6K5pW45YiG576k77yM5Lim6KiI566X5ZCE576k57WEeeiuiuaVuOeahOW5s+Wdh+WAvOOAggoKNS4g6KeA5a+fcHVtczLkuI3lkIzlrbjmrbfkuIvnmoTlubPlnYfolqros4foiIflhbbpm6LmlaPluqbvvIzkvaDnmbznj77ku4DpurzvvJ8KYGBge3J9CnB1bXMyICU+JSBncm91cF9ieShlZHVjKSAlPiUgc3VtbWFyaXNlKG1lYW4od2tseXdnZSkpCmBgYAoKNi4g6Jaq6LOH56CU56m25aSa5o6h55So5Y+W5bCN5pW46L2J5o+b5b6M55qE6Jaq6LOH77yM6KuL55Si55Sf5Y+W5bCN5pW45b6M55qE6Jaq6LOH6K6K5pW477yM5Lim5Y+W5ZCN54K6bHdrbHl3Z2XjgIJbSGludDog5L2/55SobG9nKCnlh73mlbhdCmBgYHtyfQpsd2tseXdnZSA8LWxvZyhwdW1zMiR3a2x5d2dlKQpgYGAKCjcuIOiri+S9v+eUqOewoeWWrui/tOatuOS+huS8sOioiGNvbGxlZ2XlsI1sd2tseXdnZeeahOW9semfv++8jOS4puiojuirluWFtumhr+iRl+W6puOAggpgYGB7cn0KbG5tb2RlbDwtbG0obHdrbHl3Z2V+Y29sbGVnZSkKc3VtbWFyeShsbm1vZGVsKQpgYGAKCjguIOiAg+aFrui/tOatuOaumOW3rueahOacieeVsOizquiuiueVsO+8jOS4lOatpOiuiueVsOWPr+S7peiiq2NvbGxlZ2XmjZXmjYnjgILoq4vph53lsI3nsKHllq7ov7TmrbjmqKHlnovpgLLooYxGR0xT5Lyw6KiI44CCCmBgYHtyfQpsaWJyYXJ5KG5sbWUpCmxpYnJhcnkoc2FuZHdpY2gpCmxpYnJhcnkobG10ZXN0KQpnbHNtb2RlbDwtZ2xzKGx3a2x5d2dlfmNvbGxlZ2UsIGRhdGE9cHVtczIsIHdlaWdodHM9dmFyRXhwKGZvcm09fmNvbGxlZ2UpKQpzdW1tYXJ5KGdsc21vZGVsKQpgYGAKCjkuIOmHneWwjeS4iumhjOeahOeVsOizquiuiueVsOmAsuihjEJQ5qqi5a6a44CCCmBgYHtyfQpicHRlc3QobG5tb2RlbCwgZGF0YT1wdW1zMikKYGBgCgoxMC4g6Yed5bCN57Ch5Zau6L+05q245qih5Z6L77yM6KiO6KuWY29sbGVnZeS/guaVuOWPr+iDveacieWBj+S8sOeahOWOn+WboOOAglvpnZ7pm7vohabpoYzvvIzoq4vnlKjmloflrZfoq5bov7DjgIJdCgrmiJHoqo3ngrrlj6/og73mmK9jb2xsZWdl6YCZ5YCL5L+C5pW45pys6Lqr6YKE5Y+v5Lul5YaN57m857qM57Sw5YiG5LiL5Y6777yM5q+U5aaC6Kqq5Y+w5pS/5riF5Lqk562J5ZCN5qCh55qE55Wi5qWt55Sf6LO655qE5oeJ6Kmy5q+U5YW25LuW5a245qCh5aSa77yM5omA5LulY29sbGVnZeS/guaVuOacg+eUoueUn+WBj+W3rgo=</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAi56ys5LiA5qyh6Zu76IWm5L2c5qWtIgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKLS0tCuS9nOalremZpOS6huiuk+WQjOWtuOaqouimluiqsuWgguaJgOWtuOeoi+W8j+Wklu+8jOacieS6m+mhjOebruWPquacg+e1puS9oOacquaVmemBjueahOWHveaVuOW7uuitsO+8iOe0lOeCuuW7uuitsO+8jOS9oOS5n+WPr+S7peS4jeS9v+eUqO+8ie+8jOS9oOW/hemcgOS9v+eUqEhlbHDmiJbntrLot6/mn6XlsIvljrvkuobop6Plh73mlbjnmoTmraPnorrkvb/nlKjvvJvmkJzoqaLmraPnorrnqIvlvI/lh73mlbjkvb/nlKjnmoTog73lipvvvIzkuZ/mmK/nqIvlvI/oqK3oqIjnmoTln7rmnKzlip/jgIIKCuaVmeiCsuiIh+iWquizhyAKCuS4gOmWi+Wni+iri+Wft+ihjApgYGB7cn0Kcm0obGlzdD1scygpKSAj5riF56m655Kw5aKDCmxpYnJhcnkoZ2Nvb2tib29rKSAjIOS9v+eUqFIgR3JhcGhpYyBDb29rYm9va+eahOevhOS+i+izh+aWmQpsaWJyYXJ5KGdncGxvdDIpIApsaWJyYXJ5KHRpZHlyKQpgYGAKCjEuIOS4i+i8ieS9nOalreS4reacieS4gOWAi+izh+aWmeaqlHBwLmNzdu+8jOiri+Wwh+Wug+W8leWFpVLkuJTos4fmlpnlkI3nqLHlj6vlgZpwdW1z5Lul5pa55L6/5b6M57qM6KiO6KuW44CCW2hpbnQ6IOWPr+S9v+eUqGVudmlyb25tZW506KaW56qX55qESW1wb3J0IERhdGFzZXRz6YG45Zau5oyJ6Y2177yM5L2G6KiY5b6X5oqK5bCN5oeJ56iL5byP6LK86YCy5L2c5qWt5qqUXQpgYGB7cn0KcHVtcyA8LSByZWFkLmNzdigifi9QYXJ0LUktQXNzaWdubWVudC9wcC5jc3YiKQpgYGAKCgo+IOS9nOalreizh+aWmeS+huiHque+juWcizE5ODDlubTph53lsI3kuK3lubTnmb3kurrli57li5XogIXnmoToqr/mn6XvvIzpgJnoo6HmiJHlgJHpl5zlv4PnmoRZ6K6K5pW45piv5LulMjAwM+W5tOeCuuWfuuacn+eahOWvpuizquavj+mAseiWquizhyh3a2x5d2dlKe+8jFjorormlbjmmK/mlZnogrLlubTpmZAoZWR1YykuIOaIkeWAkeaDs+aJvuWHuuaVmeiCsueahOWgsemFrOacieWkmumrmO+8n+S5n+WwseaYr+WkmuWPl+m7nuaVmeiCsu+8jOiWquizh+WPr+S7peaPkOmrmOWkmuWwke+8nwoKMi4g5Yid5q2l6KeA5a+fd2tseXdnZeiIh2VkdWPpgJnlhanlgIvorormlbjvvIzkvaDms6jmhI/liLDku4DpurzvvJ/lj6/oh6rnlLHnmbzmj67miYDmjJTmk5rnmoTop4Dlr5/vvIzlj6/ku6XmmK/ntbHoqIjph4/miJbmmK/lnJblvaLjgIIKYGBge3J9CnJtb2RlbDwtbG0obG9nKHdrbHl3Z2UpfmVkdWMsZGF0YT1wdW1zKQogI+W7uueri+i/tOimj+aooeW8j2xtKFl+WCnvvIzkuKblkb3lkI3ngrptb2RlbAoKc3VtbWFyeShybW9kZWwpICPmqqLoppbov7TmrbjntbHoqIjph48KCmBgYApgYGB7cn0KcHVtcyAlPiUgZ2dwbG90KGFlcyh4PWVkdWMseT1sb2cod2tseXdnZSkpKSArIGdlb21fcG9pbnQoKQpgYGAKCgo+IOaIkeWAkeWPquaJk+eul+WIhuaekOaLv+WIsOmrmOS4reWtuOatt+iIh+Wkp+WtuOWtuOatt+eahOiWquizh+W3rueVsO+8jOS7pGVkdWM9MTLngrrpq5jkuK3lrbjmrbfvvIzogIxlZHVjPTE254K65aSn5a245a245q2344CCCgozLiDkvb/nlKhkcGx5cuijoeeahGZpbHRlcigp55WZ5LiL56ym5ZCI5qKd5Lu255qE5qij5pys77yM5LiU5qij5pys5Y+W5ZCN54K6cHVtczLjgIJbSGludDog5q2k6aGM6ZyA6KaB5LqG6Kej6YKP6Lyv5Yik5pa356iL5byP6KaP5YmH77yM5ZCM5a245Y+v5Lul5Y+D6ICDaHR0cHM6Ly9jcmFuLnItcHJvamVjdC5vcmcvZG9jL21hbnVhbHMvci1yZWxlYXNlL1ItaW50cm8ucGRm6KOh55qEMi4056+ATG9naWNhbCB2ZWN0b3Jz44CC6KaB5rOo5oSP55qE5piv77yM6KaB5Yik5pa35piv5ZCmZWR1Y+eCujEy77yM6KaB5a+r5oiQZWR1Yz09MTLvvIzogIzpnZ5lZHVjPTEyXQpgYGB7cn0KcHVtczIgPC0gZmlsdGVyKHB1bXMsIGVkdWM9PTE2IHwgZWR1Yz09MTIpCmBgYAoKCioqKgrku6XkuIvllY/poYzoq4vkvb/nlKhwdW1zMuizh+aWmQoKNC4g5ZyocHVtczLnlKLnlJ/kuIDlgItjb2xsZWdl6Jmb5pOs6K6K5pW477yMY29sbGVnZeeCujHoi6VlZHVjPTE244CC5o6l6JGX5qqi6KaW6Kmy6K6K5pW455qEY2xhc3PjgIIKYGBge3J9CmNvbGxlZ2UgPC0gcHVtczIkZWR1Yz09MTYKY2xhc3MoY29sbGVnZSkKcHVtczIuMCA8LWNiaW5kKHB1bXMyLCBjb2xsZWdlKQpgYGAKCgo+IOimgemAsuihjOWIhue+pOWIhuaekOaZgu+8jOaIkeWAkeWPr+S7peS9v+eUqGRwbHlyOjpncm91cF9ieSgp5L6G55Si55Sf5YiG576k6LOH5paZ77yM5LmL5b6M55SoZHBseXI6OnN1bW1hcmlzZSgp5L6G55Si55Sf5ZCE5Yil576k57WE55qE54m55b615YC844CC5aaCIGRkICU+JSBncm91cF9ieSh4KSAlPiUgc3VtbWFyaXNlKG1lYW4oeSkpIOS7o+ihqOOAjOS9v+eUqOizh+aWmWRk77yM5L6d5YW25Lit55qEeOiuiuaVuOWIhue+pO+8jOS4puioiOeul+WQhOe+pOe1hHnorormlbjnmoTlubPlnYflgLzjgIIKCjUuIOingOWvn3B1bXMy5LiN5ZCM5a245q235LiL55qE5bmz5Z2H6Jaq6LOH6IiH5YW26Zui5pWj5bqm77yM5L2g55m854++5LuA6bq877yfCmBgYHtyfQpwdW1zMiAlPiUgZ3JvdXBfYnkoZWR1YykgJT4lIHN1bW1hcmlzZShtZWFuKHdrbHl3Z2UpKQpgYGAKCjYuIOiWquizh+eglOeptuWkmuaOoeeUqOWPluWwjeaVuOi9ieaPm+W+jOeahOiWquizh++8jOiri+eUoueUn+WPluWwjeaVuOW+jOeahOiWquizh+iuiuaVuO+8jOS4puWPluWQjeeCumx3a2x5d2dl44CCW0hpbnQ6IOS9v+eUqGxvZygp5Ye95pW4XQpgYGB7cn0KbHdrbHl3Z2UgPC1sb2cocHVtczIkd2tseXdnZSkKYGBgCgo3LiDoq4vkvb/nlKjnsKHllq7ov7TmrbjkvobkvLDoqIhjb2xsZWdl5bCNbHdrbHl3Z2XnmoTlvbHpn7/vvIzkuKboqI7oq5blhbbpoa/okZfluqbjgIIKYGBge3J9CmxubW9kZWw8LWxtKGx3a2x5d2dlfmNvbGxlZ2UsZGF0YT1wdW1zMikKc3VtbWFyeShsbm1vZGVsKQpgYGAKCjguIOiAg+aFrui/tOatuOaumOW3rueahOacieeVsOizquiuiueVsO+8jOS4lOatpOiuiueVsOWPr+S7peiiq2NvbGxlZ2XmjZXmjYnjgILoq4vph53lsI3nsKHllq7ov7TmrbjmqKHlnovpgLLooYxGR0xT5Lyw6KiI44CCCmBgYHtyfQpsaWJyYXJ5KG5sbWUpCmxpYnJhcnkoc2FuZHdpY2gpCmxpYnJhcnkobG10ZXN0KQpnbHNtb2RlbDwtZ2xzKGx3a2x5d2dlfmNvbGxlZ2UsIGRhdGE9cHVtczIsIHdlaWdodHM9dmFyRXhwKGZvcm09fmNvbGxlZ2UpKQpzdW1tYXJ5KGdsc21vZGVsKQpgYGAKCjkuIOmHneWwjeS4iumhjOeahOeVsOizquiuiueVsOmAsuihjEJQ5qqi5a6a44CCCmBgYHtyfQpicHRlc3QobG5tb2RlbCwgZGF0YT1wdW1zMikKYGBgCgoxMC4g6Yed5bCN57Ch5Zau6L+05q245qih5Z6L77yM6KiO6KuWY29sbGVnZeS/guaVuOWPr+iDveacieWBj+S8sOeahOWOn+WboOOAglvpnZ7pm7vohabpoYzvvIzoq4vnlKjmloflrZfoq5bov7DjgIJdCgrmiJHoqo3ngrrlj6/og73mmK9jb2xsZWdl6YCZ5YCL5L+C5pW45pys6Lqr6YKE5Y+v5Lul5YaN57m857qM57Sw5YiG5LiL5Y6777yM5q+U5aaC6Kqq5Y+w5pS/5riF5Lqk562J5ZCN5qCh55qE55Wi5qWt55Sf6LO655qE5oeJ6Kmy5q+U5YW25LuW5a245qCh5aSa77yM5omA5LulY29sbGVnZeS/guaVuOacg+eUoueUn+WBj+W3rgo=</div>
 
 
 

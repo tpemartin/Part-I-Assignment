@@ -25,14 +25,17 @@ View(pums)
 
 2. 初步觀察wklywge與educ這兩個變數，你注意到什麼？可自由發揮所挔據的觀察，可以是統計量或是圖形。
 ```{r}
-lm(wklywge~ educ, pums)
+library(psych)
 describe(pums)
+lm(wklywge~educ,pums)
+```
+由上表可知在其他條件不變下，每增加教育年限1年，對於實質每周薪資增加27.75%，此外可得知wklywge資料有右偏情況。
+因此對wklywge取log後在畫圖顯示的結果較為清楚，教育年限與每周薪資呈正相關。
+```{r}
+pums %>% ggplot(aes(x=wklywge)) +geom_histogram() 
+pums %>% ggplot(aes(x=log(wklywge))) +geom_histogram() 
+pums %>% ggplot(aes(x=educ,y=log(wklywge)))+geom_point() +geom_smooth(model=lm)
 
-pums %>% ggplot(aes(x=educ,y=log(wklywge)))+
-  geom_point() -> f1
-f1
-pums %>% ggplot(aes(x=log(wklywge))) +
-  geom_histogram() 
 ```
 
 
@@ -40,7 +43,8 @@ pums %>% ggplot(aes(x=log(wklywge))) +
 
 3. 使用dplyr裡的filter()留下符合條件的樣本，且樣本取名為pums2。[Hint: 此題需要了解邏輯判斷程式規則，同學可以參考https://cran.r-project.org/doc/manuals/r-release/R-intro.pdf裡的2.4節Logical vectors。要注意的是，要判斷是否educ為12，要寫成educ==12，而非educ=12]
 ```{r}
-
+pums %>% filter(educ==16|educ==12) -> pums2
+pums2
 ```
 
 
@@ -49,7 +53,9 @@ pums %>% ggplot(aes(x=log(wklywge))) +
 
 4. 在pums2產生一個college虛擬變數，college為1若educ=16。接著檢視該變數的class。
 ```{r}
-
+pums2$college <-(pums2$educ==16)
+class(pums2$college)
+pums2
 ```
 
 
@@ -57,27 +63,39 @@ pums %>% ggplot(aes(x=log(wklywge))) +
 
 5. 觀察pums2不同學歷下的平均薪資與其離散度，你發現什麼？
 ```{r}
-
+pums2 %>% group_by(college) %>% summarise(mean(wklywge),sd(wklywge))
 ```
-
+在其他條件不變下，大學學歷平均高於高中學歷，但變異較大。
 6. 薪資研究多採用取對數轉換後的薪資，請產生取對數後的薪資變數，並取名為lwklywge。[Hint: 使用log()函數]
 ```{r}
+lwklywge<-log(pums2$wklywge)
 
 ```
 
 7. 請使用簡單迴歸來估計college對lwklywge的影響，並討論其顯著度。
 ```{r}
-
+a1<-lm(lwklywge~college,pums2)
+summary(a1)
+library(sandwich) 
+library(lmtest)
+coeftest(a1,vcov=vcovHC(a1,type='HC0'))
 ```
+由上述P-value得出結果為顯著異於零。
 
 8. 考慮迴歸殘差的有異質變異，且此變異可以被college捕捉。請針對簡單迴歸模型進行FGLS估計。
 ```{r}
-
+library(nlme) 
+a2<-gls(lwklywge~college,data=pums2,weights=varIdent(form=~ 1 | college)) 
+summary(a2)
 ```
 
 9. 針對上題的異質變異進行BP檢定。
 ```{r}
-
+bptest(lwklywge~college,data = pums2)
 ```
-
+ 
 10. 針對簡單迴歸模型，討論college係數可能有偏估的原因。[非電腦題，請用文字論述。]
+Ans: 
+college係數偏估可能原因為遺漏重要解釋變數或遺漏的變數同時對教育年限及每周薪資皆有影響，
+舉例:家庭背景的教育程度高可能導致資源獲取較多，進一步影響教育年限越高和每周薪資增加。
+

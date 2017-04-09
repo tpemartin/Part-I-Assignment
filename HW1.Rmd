@@ -82,7 +82,6 @@ summary(reg2)
 ```{r}
 library(lmtest)
 bptest(model,data=pums2)
-bptest(model,varformula=~college,data=pums2) 
 ```
 
 10. 針對簡單迴歸模型，討論college係數可能有偏估的原因。[非電腦題，請用文字論述。]

@@ -27,15 +27,19 @@ pums <- read_csv("~/Part-I-Assignment/pp.csv")
 library(psych)
 describe(pums)
 plot(pums$wklywge,pums$educ)
+pums %>% ggplot(aes(x=wklywge)) + geom_histogram()
+pums %>% ggplot(aes(x=log(wklywge))) + geom_histogram()
+pums %>% ggplot(aes(x=educ)) + geom_histogram()
+pums %>% ggplot(aes(x=log(educ))) + geom_histogram()
 ```
-
+薪資的分布經過對數轉換後，使圖形趨於常態，教育程度則沒有這種現象
 
 > 我們只打算分析拿到高中學歷與大學學歷的薪資差異，令educ=12為高中學歷，而educ=16為大學學歷。
 
 3. 使用dplyr裡的filter()留下符合條件的樣本，且樣本取名為pums2。[Hint: 此題需要了解邏輯判斷程式規則，同學可以參考https://cran.r-project.org/doc/manuals/r-release/R-intro.pdf裡的2.4節Logical vectors。要注意的是，要判斷是否educ為12，要寫成educ==12，而非educ=12]
 ```{r}
 library(dplyr)
-pums2 <- filter(pums,educ==c(12,16))
+pums2 <- filter(pums, educ==12 | educ==16)
 ```
 
 
@@ -49,15 +53,15 @@ pums2 <- data.frame(pums2)
 pums2$college <- ifelse(pums2$educ==16,1,0)
 class(pums2$college)
 ```
-
+"numeric"
 
 > 要進行分群分析時，我們可以使用dplyr::group_by()來產生分群資料，之後用dplyr::summarise()來產生各別群組的特徵值。如 dd %>% group_by(x) %>% summarise(mean(y)) 代表「使用資料dd，依其中的x變數分群，並計算各群組y變數的平均值。
 
 5. 觀察pums2不同學歷下的平均薪資與其離散度，你發現什麼？
 ```{r}
-pums2 %>% group_by(educ) %>% summarise(mean(wklywge),var(wklywge))
-
+pums2 %>% group_by(educ) %>% summarise(mean(wklywge),var(wklywge),sd(wklywge))
 ```
+大學的平均周薪資高於高中，而且離散程度也較大
 
 6. 薪資研究多採用取對數轉換後的薪資，請產生取對數後的薪資變數，並取名為lwklywge。[Hint: 使用log()函數]
 ```{r}
@@ -70,6 +74,7 @@ model <- lwklywge~college
 reg1 <- lm(model,data=pums2)
 summary(reg1)
 ```
+其他條件維持不變下，大學的周薪資會顯著高於高中生的周薪資約0.384275
 
 8. 考慮迴歸殘差的有異質變異，且此變異可以被college捕捉。請針對簡單迴歸模型進行FGLS估計。
 ```{r}
@@ -83,7 +88,8 @@ summary(reg2)
 library(lmtest)
 bptest(model,data=pums2)
 ```
+BP = 1.2229, df = 1, p-value = 0.2688
 
 10. 針對簡單迴歸模型，討論college係數可能有偏估的原因。[非電腦題，請用文字論述。]
 
-變數college可能需要再細分，亦或者是加入其他變數來增加解釋力。
+變數college可能需要再細分，找到其他真正影響周薪資的變數，亦或者是加入其他遺漏變數來增加解釋力，尚未修正前，college可能會與殘差項有交互作用存在，導致偏估。

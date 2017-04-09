@@ -15,7 +15,7 @@ library(ggplot2)
 
 1. 下載作業中有一個資料檔pp.csv，請將它引入R且資料名稱叫做pums以方便後續討論。[hint: 可使用environment視窗的Import Datasets選單按鍵，但記得把對應程式貼進作業檔]
 ```{r}
-pums <- read.csv("C:/Users/asus/Desktop/School/Graduate School TW/Quan/Part-I-Assignment/pp.csv")
+pums <- read.csv("~/Part-I-Assignment/pp.csv")
 ```
 
 
@@ -23,7 +23,10 @@ pums <- read.csv("C:/Users/asus/Desktop/School/Graduate School TW/Quan/Part-I-As
 
 2. 初步觀察wklywge與educ這兩個變數，你注意到什麼？可自由發揮所挔據的觀察，可以是統計量或是圖形。
 ```{r}
-lm(wklywge~ educ, pums)
+describe(pums)
+```
+```{r}
+pums %>% ggplot(aes(x=educ,y=log(wklywge))) + geom_point()
 ```
 
 

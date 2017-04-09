@@ -24,25 +24,30 @@ pums <- read.csv("https://raw.githubusercontent.com/tpemartin/Part-I-Assignment/
 
 2. 初步觀察wklywge與educ這兩個變數，你注意到什麼？可自由發揮所挔據的觀察，可以是統計量或是圖形。
 ```{r}
-
 ggplot(pums, aes(x=educ, y=wklywge))+geom_point()
-ggplot(pums, aes(x=educ))+geom_histogram()
-ggplot(pums, aes(x=log(wklywge)))+geom_histogram()
-lm(wklywge~educ,pums)
-#由第一個指令執行後的圖可以發現，當X軸為教育程度，Y軸為每週實質薪資時，隱約看的出  一點正相關的感覺。
-#第二個指令執行後的圖形可以看到相當多人都具有高中學歷，其次才是大學學歷。
-#第三個指令原先不取對數時難以判別，取對數後發現稍稍呈現右偏分布。
-#第四個指令執行OLS估計後可以看出教育年限係數為27.75，故當教育程度越高則每週實質薪  資越高。
+```
+當X軸為教育程度，Y軸為每週實質薪資時，隱約看的出  一點正相關的感覺。
 
+```{r}
+ggplot(pums, aes(x=educ))+geom_histogram()
+```
+可以看到相當多人都具有高中學歷，其次才是大學學歷。
+
+```{r}
 library(psych)
 psych::describe(pums)
-pums %>% ggplot(aes(x=wklywge)) + geom_histogram()
-pums %>% ggplot(aes(x=log(wklywge))) + geom_histogram()
-pums %>% ggplot(aes(x=educ)) + geom_histogram()
-
-
-## 每週薪資（wklywge）存在著明顯的右偏，且有很高的kurtosis，最好將其取對數使其變得平滑
 ```
+每週薪資（wklywge）存在著明顯的右偏，且有很高的kurtosis，最好將其取對數使其變得平滑
+
+```{r}
+ggplot(pums, aes(x=log(wklywge)))+geom_histogram()
+```
+原先不取對數時難以判別，取對數後發現稍稍呈現右偏分布。
+
+```{r}
+lm(wklywge~educ,pums)
+```
+執行OLS估計後可以看出教育年限係數為27.75，故當教育程度越高則每週實質薪  資越高。
 
 > 我們只打算分析拿到高中學歷與大學學歷的薪資差異，令educ=12為高中學歷，而educ=16為大學學歷。
 
@@ -104,6 +109,7 @@ bptest(model,data=pums2)
 ```
 
 10. 針對簡單迴歸模型，討論college係數可能有偏估的原因。[非電腦題，請用文字論述。]
+
 # eason19987
 由於college變數代表教育程度，但影響實質薪資的原因可能不只教育程度，像是人脈、個人特質以及語言能力皆可能影響實質薪資，因此如果只考慮college這個變數，則會導致係數出現偏誤。
 [光會影響實質薪資，並不一定會造成偏誤]

@@ -15,15 +15,18 @@ library(ggplot2)
 
 1. 下載作業中有一個資料檔pp.csv，請將它引入R且資料名稱叫做pums以方便後續討論。[hint: 可使用environment視窗的Import Datasets選單按鍵，但記得把對應程式貼進作業檔]
 ```{r}
-pums <- read.csv("C:/Users/asus/Desktop/School/Graduate School TW/Quan/Part-I-Assignment/pp.csv")
+library(readr)
+pums <- read.csv("https://raw.githubusercontent.com/pkj811027/Part-I-Assignment/master/pp.csv")
 ```
 
 
 > 作業資料來自美國1980年針對中年白人勞動者的調查，這裡我們關心的Y變數是以2003年為基期的實質每週薪資(wklywge)，X變數是教育年限(educ). 我們想找出教育的報酬有多高？也就是多受點教育，薪資可以提高多少？
-
+ 
 2. 初步觀察wklywge與educ這兩個變數，你注意到什麼？可自由發揮所挔據的觀察，可以是統計量或是圖形。
 ```{r}
 lm(wklywge~ educ, pums)
+pums %>% ggplot(aes(x=educ,y=wklywge)) +
+  geom_point()
 ```
 
 

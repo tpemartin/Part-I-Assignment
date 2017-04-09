@@ -17,7 +17,6 @@ library(ggplot2)
 ```{r}
 library(readr)
 pums <- read.csv("https://raw.githubusercontent.com/tpemartin/Part-I-Assignment/master/pp.csv")
-View(pums)
 ```
 
 
@@ -31,35 +30,23 @@ pums %>% ggplot(aes(x=log(wklywge))) + geom_histogram()
 pums %>% ggplot(aes(x=educ)) + geom_histogram()
 
 ## 每週薪資（wklywge）存在著明顯的右偏，且有很高的kurtosis，最好將其取對數使其變得平滑
-
 ```
-# educ
 
 > 我們只打算分析拿到高中學歷與大學學歷的薪資差異，令educ=12為高中學歷，而educ=16為大學學歷。
 
 3. 使用dplyr裡的filter()留下符合條件的樣本，且樣本取名為pums2。[Hint: 此題需要了解邏輯判斷程式規則，同學可以參考https://cran.r-project.org/doc/manuals/r-release/R-intro.pdf裡的2.4節Logical vectors。要注意的是，要判斷是否educ為12，要寫成educ==12，而非educ=12]
 ```{r}
-pums %>% filter(educ == 12 | educ == 16) -> pums3
-
-
-pums %>% with(pums2 <<- pums[educ == 12 | educ == 16,c("wklywge","educ")])
-
+pums2 <- filter(pums, educ==16 | educ==12)
 ```
-#用兩種方法嘗試
 
 ***
 以下問題請使用pums2資料
 
 4. 在pums2產生一個college虛擬變數，college為1若educ=16。接著檢視該變數的class。
 ```{r}
-pums2 %>% within({college <- NA
-                  college[educ == 16] <- 1
-                  college[educ == 12] <- 0
-                  college <- factor(college)}) ->pums2
-class(pums2$college)
-
+pums2$college <- pums2$educ==16
+class(college)
 ```
-# 將college的class 從 numeric 轉為 factor
 
 > 要進行分群分析時，我們可以使用dplyr::group_by()來產生分群資料，之後用dplyr::summarise()來產生各別群組的特徵值。如 dd %>% group_by(x) %>% summarise(mean(y)) 代表「使用資料dd，依其中的x變數分群，並計算各群組y變數的平均值。
 
@@ -91,6 +78,7 @@ coeftest(out1,vcov=vcovHC(out1,type="HC0"))
 8. 考慮迴歸殘差的有異質變異，且此變異可以被college捕捉。請針對簡單迴歸模型進行FGLS估計。
 ```{r}
 library(nlme)
+
 pums2$predicted<-predict(out1)
 pums2$residuals<-residuals(out1)
 pums2 %>% ggplot(aes(x=college,y=(residuals)^2))+geom_point()
@@ -98,8 +86,6 @@ summary(out1)
 
 out2<-gls(model,data=pums2,weights = varIdent(form = ~1| college))
 summary(out2)
-
-
 ```
 
 9. 針對上題的異質變異進行BP檢定。
@@ -109,8 +95,13 @@ bptest(model,data=pums2)
 
 10. 針對簡單迴歸模型，討論college係數可能有偏估的原因。[非電腦題，請用文字論述。]
 
+# caiguoliang
 college係數可能有偏誤的原因是
 （1）模型可能遺漏了重要的解釋變數，如性別，性別可能會影響薪資，這樣性別就包含在簡單回歸的殘差項里，同時，性別也可能會影響教育，例如重男輕女、伊斯蘭保守嚴重的地區，女性的教育程度可能會比男性低，這樣，假設A.3就不成立，進而估計出來的college係數也可能是偏誤的
 （2）可能存在著內生性問題，薪資會受學歷影響，但反過來，我們不能排除學歷也可能會收到薪資的影響，比如一些家庭經濟條件較差的人，當他有較高的薪資后，會選擇進修，以提高自己的職場能力，進而會出現工資高的人，學歷也會更高的情況。這樣，殘差項與被解釋變數Y有關，X又收到Y影響，即X與殘差項會相關，即違反了假設A.3
+[答案有些問題，這個資料只有「男性」」
 
+# nijack89
+[答案有問題]
+我認為可能是college這個係數本身還可以再繼續細分下去，比如說台政清交等名校的畢業生賺的應該比其他學校多，所以college係數會產生偏差
 

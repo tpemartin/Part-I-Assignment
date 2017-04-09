@@ -65,7 +65,7 @@ pums2 %>% group_by(educ) %>% summarise(mean(wklywge),var(wklywge),sd(wklywge))
 
 6. 薪資研究多採用取對數轉換後的薪資，請產生取對數後的薪資變數，並取名為lwklywge。[Hint: 使用log()函數]
 ```{r}
-lwklywge <- log(pums2$wklywge)
+pums2$lwklywge <- log(pums2$wklywge)
 ```
 
 7. 請使用簡單迴歸來估計college對lwklywge的影響，並討論其顯著度。

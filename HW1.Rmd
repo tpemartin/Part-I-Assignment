@@ -29,9 +29,10 @@ library(psych)
 describe(pums)
 pums %>% 
   ggplot(aes(x=educ, y=wklywge))+ geom_point()
-
+pums %>%
+  ggplot(aes(x=wklywge, y=educ))+geom_point()
 ```
-
+In this data, the average education year is 12.77 years(which is the year that graduates from senior high school), and the average weekly wage is 439.49 dollars. Weekly wage skews to right, which means only few people earn really high wage than the majority. the education years do not affect the weekly wage.
 
 > 我們只打算分析拿到高中學歷與大學學歷的薪資差異，令educ=12為高中學歷，而educ=16為大學學歷。
 
@@ -60,7 +61,14 @@ class(college)
 pums2 %>%
   group_by(educ) %>%
   summarise(mean(wklywge))
+pums2 %>%
+  group_by(educ) %>%
+  summarise(sd(wklywge))
+pums2 %>%
+  group_by(educ) %>%
+  ggplot(aes(x=educ,y=wklywge))+geom_point()
 ```
+The person who receive education for 16 years(which is graduate from university) will earn about 200 dollars more than the one who receive education only 12 years(which is graduate from senior high school). The standard deviation of receiving eduction for 16 years is larger than that of 16 years.
 
 6. 薪資研究多採用取對數轉換後的薪資，請產生取對數後的薪資變數，並取名為lwklywge。[Hint: 使用log()函數]
 ```{r}
@@ -73,6 +81,7 @@ model<-lwlywge~college
 output1<- lm(lwlywge~ college, data = pums2)
 summary(output1)
 ```
+The p-value of collegetrue(educated for 16 years) is significant. That is, if one person graduated from college, the log weekly wage is 0.384275 higher than the one graduated from senior high school.
 
 8. 考慮迴歸殘差的有異質變異，且此變異可以被college捕捉。請針對簡單迴歸模型進行FGLS估計。
 ```{r}

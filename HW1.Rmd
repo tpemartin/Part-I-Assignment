@@ -24,7 +24,16 @@ pums <- read.csv("https://raw.githubusercontent.com/tpemartin/Part-I-Assignment/
 
 2. 初步觀察wklywge與educ這兩個變數，你注意到什麼？可自由發揮所挔據的觀察，可以是統計量或是圖形。
 ```{r}
-lm(wklywge~ educ, pums)
+library(psych)
+describe(pums)
+lm(wklywge~educ,pums)
+#在其他條件不變下，教育年數每增加一年，對於每週實質薪資增加27.75%。
+#且因為wklywge的skew=12.02>0，理應有右偏的情況。
+pums %>% ggplot(aes(x=wklywge)) +geom_histogram()
+pums %>% ggplot(aes(x=log(wklywge))) +geom_histogram()
+#從橫軸為log(wklywge)的圖形看出，確實有右偏的情形。
+pums %>% ggplot(aes(x=educ,y=log(wklywge))) +geom_point() +geom_smooth(model=lm)
+#教育年限和log週薪資呈現正相關
 ```
 
 
@@ -33,6 +42,7 @@ lm(wklywge~ educ, pums)
 3. 使用dplyr裡的filter()留下符合條件的樣本，且樣本取名為pums2。[Hint: 此題需要了解邏輯判斷程式規則，同學可以參考https://cran.r-project.org/doc/manuals/r-release/R-intro.pdf裡的2.4節Logical vectors。要注意的是，要判斷是否educ為12，要寫成educ==12，而非educ=12]
 ```{r}
 pums2 <- filter(pums, educ==16 | educ==12)
+pums2
 ```
 
 
@@ -41,9 +51,9 @@ pums2 <- filter(pums, educ==16 | educ==12)
 
 4. 在pums2產生一個college虛擬變數，college為1若educ=16。接著檢視該變數的class。
 ```{r}
-college <- pums2$educ==16
-class(college)
-pums2.0 <-cbind(pums2, college)
+pums2$college <- (pums2$educ==16)
+class(pums2$college)
+pums2
 ```
 
 
@@ -51,34 +61,39 @@ pums2.0 <-cbind(pums2, college)
 
 5. 觀察pums2不同學歷下的平均薪資與其離散度，你發現什麼？
 ```{r}
-pums2 %>% group_by(educ) %>% summarise(mean(wklywge))
+pums2 %>% group_by(college) %>% summarise(mean(wklywge),sd(wklywge))
+#其他條件不變下，有讀大學的平均log週薪資高，但是變異程度比較大。
 ```
 
 6. 薪資研究多採用取對數轉換後的薪資，請產生取對數後的薪資變數，並取名為lwklywge。[Hint: 使用log()函數]
 ```{r}
 lwklywge <-log(pums2$wklywge)
+lwklywge
 ```
 
 7. 請使用簡單迴歸來估計college對lwklywge的影響，並討論其顯著度。
 ```{r}
-lnmodel<-lm(lwklywge~college)
-summary(lnmodel)
+rg1 <-lm(lwklywge~college,pums2)
+summary(rg1)
+library(sandwich)
+library(lmtest)
+coeftest(rg1,vcov=vcovHC(rg1,type='HC0'))
+#若顯著水準=0.1%，因為p-value=2.2e-16<<0.001.，所以落在拒絕域，所以college的係數顯著異於0，也就是說college對於lwklywge有顯著影響。
 ```
 
 8. 考慮迴歸殘差的有異質變異，且此變異可以被college捕捉。請針對簡單迴歸模型進行FGLS估計。
 ```{r}
 library(nlme)
-library(sandwich)
-library(lmtest)
-glsmodel<-gls(lwklywge~college, data=pums2, weights=varExp(form=~college))
-summary(glsmodel)
+rg2<-gls(lwklywge~college,data=pums2, weights=varIdent(form=~1|college))
+summary(rg2)
 ```
 
 9. 針對上題的異質變異進行BP檢定。
 ```{r}
-bptest(lnmodel, data=pums2)
+bptest(lwklywge~college,data=pums2)
 ```
 
 10. 針對簡單迴歸模型，討論college係數可能有偏估的原因。[非電腦題，請用文字論述。]
 
-我認為可能是college這個係數本身還可以再繼續細分下去，比如說台政清交等名校的畢業生賺的應該比其他學校多，所以college係數會產生偏差
+1.因為log週薪資不太可能只被college影響，說不定還有一些遺漏變數我們沒有納入迴歸式。
+2.log週薪資和college彼此都會影響彼此，即內生性問題。

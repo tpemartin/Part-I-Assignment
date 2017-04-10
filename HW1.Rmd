@@ -32,6 +32,7 @@ pums %>%
 pums %>%
   ggplot(aes(x=wklywge, y=educ))+geom_point()
 ```
+我的R打中文很卡，所以我盡量用英文回答。
 In this data, the average education year is 12.77 years(which is the year that graduates from senior high school), and the average weekly wage is 439.49 dollars. Weekly wage skews to right, which means only few people earn really high wage than the majority. the education years do not affect the weekly wage.
 
 > 我們只打算分析拿到高中學歷與大學學歷的薪資差異，令educ=12為高中學歷，而educ=16為大學學歷。
@@ -81,7 +82,7 @@ model<-lwlywge~college
 output1<- lm(lwlywge~ college, data = pums2)
 summary(output1)
 ```
-The p-value of collegetrue(educated for 16 years) is significant. That is, if one person graduated from college, the log weekly wage is 0.384275 higher than the one graduated from senior high school.
+The p-value of collegetrue(educated for 16 years) is significant. That is, if one person graduated from college, the log weekly wage is 38.4275% higher than the one graduated from senior high school.
 
 8. 考慮迴歸殘差的有異質變異，且此變異可以被college捕捉。請針對簡單迴歸模型進行FGLS估計。
 ```{r}
@@ -98,3 +99,4 @@ bptest(model,varformula=~college, data = pums2)
 ```
 
 10. 針對簡單迴歸模型，討論college係數可能有偏估的原因。[非電腦題，請用文字論述。]
+"College" is biased because there are other factors affecting weekly wage, such as  working experience, gender, the level of university(like NTU is the top level in Taiwan), etc. The higher Working experience might have higher weekly wage because the employee might be more efficient on their task than those who don't have working experience. Male tend to earn higher weekly wage than female because female sometimes need to spend time on their family such as pregnant and rising children, they leave labor force for 1~2 years, which cause them earn less wage than the male(if their age are same). These factors affects the coefficient and weekly wage, so "college" is biased.

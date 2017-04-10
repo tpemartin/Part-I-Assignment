@@ -49,6 +49,11 @@ lm(wklywge~educ,pums)
 ```
 執行OLS估計後可以看出教育年限係數為27.75，故當教育程度越高則每週實質薪  資越高。
 
+```{r}
+pums %>% ggplot(aes(x=educ,y=log(wklywge)))+geom_point() +geom_smooth(model=lm)
+```
+使用geom_smooth來產生迴歸線。（魏敬萱）
+
 > 我們只打算分析拿到高中學歷與大學學歷的薪資差異，令educ=12為高中學歷，而educ=16為大學學歷。
 
 3. 使用dplyr裡的filter()留下符合條件的樣本，且樣本取名為pums2。[Hint: 此題需要了解邏輯判斷程式規則，同學可以參考https://cran.r-project.org/doc/manuals/r-release/R-intro.pdf裡的2.4節Logical vectors。要注意的是，要判斷是否educ為12，要寫成educ==12，而非educ=12]

@@ -177,10 +177,24 @@ $(document).ready(function () {
 <p>一開始請執行</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucm0obGlzdD1scygpKVxubGlicmFyeShkcGx5cilcbmxpYnJhcnkoZ2dwbG90MilcbmBgYCJ9 -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucm0obGlzdD1scygpKVxubGlicmFyeShkcGx5cilcbmBgYCJ9 -->
 <pre class="r"><code>rm(list=ls())
-library(dplyr)
-library(ggplot2)</code></pre>
+library(dplyr)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5BdHRhY2hpbmcgcGFja2FnZTog5oS847ix5oS847i1ZHBseXLmhLzjuLHmhLzjuLZcblxuVGhlIGZvbGxvd2luZyBvYmplY3RzIGFyZSBtYXNrZWQgZnJvbSDmhLzjuLHmhLzjuLVwYWNrYWdlOnN0YXRz5oS847ix5oS847i2OlxuXG4gICAgZmlsdGVyLCBsYWdcblxuVGhlIGZvbGxvd2luZyBvYmplY3RzIGFyZSBtYXNrZWQgZnJvbSDmhLzjuLHmhLzjuLVwYWNrYWdlOmJhc2XmhLzjuLHmhLzjuLY6XG5cbiAgICBpbnRlcnNlY3QsIHNldGRpZmYsIHNldGVxdWFsLCB1bmlvblxuIn0= -->
+<pre><code>
+Attaching package: 愼㸱愼㸵dplyr愼㸱愼㸶
+
+The following objects are masked from 愼㸱愼㸵package:stats愼㸱愼㸶:
+
+    filter, lag
+
+The following objects are masked from 愼㸱愼㸵package:base愼㸱愼㸶:
+
+    intersect, setdiff, setequal, union</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShnZ3Bsb3QyKVxuYGBgIn0= -->
+<pre class="r"><code>library(ggplot2)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -189,6 +203,9 @@ library(ggplot2)</code></pre>
 </ol>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucHVtcyA8LSByZWFkLmNzdihcImh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9hbWJlcmt1b2ZydWl0L1BhcnQtSS1Bc3NpZ25tZW50L21hc3Rlci9wcC5jc3ZcIilcbmBgYCJ9 -->
+<pre class="r"><code>pums &lt;- read.csv(&quot;https://raw.githubusercontent.com/amberkuofruit/Part-I-Assignment/master/pp.csv&quot;)</code></pre>
+<!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <blockquote>
@@ -199,8 +216,98 @@ library(ggplot2)</code></pre>
 </ol>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZ2dwbG90KHB1bXMsIGFlcyh4PWVkdWMsIHk9d2tseXdnZSkpK2dlb21fc21vb3RoKClcbmBgYCJ9 -->
+<pre class="r"><code>ggplot(pums, aes(x=educ, y=wklywge))+geom_smooth()</code></pre>
+<!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
+<div class="section level1">
+<h1>上圖可觀察到教育程度對每週薪資有明顯正相關</h1>
+</div>
+<div class="section level1">
+<h1>想看看教育程度大小</h1>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZ2dwbG90KHB1bXMsIGFlcyh4PWVkdWMpKStnZW9tX2hpc3RvZ3JhbSgpXG5gYGAifQ== -->
+<pre class="r"><code>ggplot(pums, aes(x=educ))+geom_histogram()</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-plot-begin eyJjb25kaXRpb25zIjpbWzAsImBzdGF0X2JpbigpYCB1c2luZyBgYmlucyA9IDMwYC4gUGljayBiZXR0ZXIgdmFsdWUgd2l0aCBgYmlud2lkdGhgLlxuIl1dLCJoZWlnaHQiOjQwNi42NzQ5LCJzaXplX2JlaGF2aW9yIjowLCJ3aWR0aCI6NjU4fQ== -->
+<p><img src="data:image/png;base64,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" /></p>
+<!-- rnb-plot-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div class="section level1">
+<h1>上圖顯示大多數人教育程度落在高中，其次為大學學歷</h1>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShwc3ljaClcbmBgYCJ9 -->
+<pre class="r"><code>library(psych)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5BdHRhY2hpbmcgcGFja2FnZTog5oS847ix5oS847i1cHN5Y2jmhLzjuLHmhLzjuLZcblxuVGhlIGZvbGxvd2luZyBvYmplY3RzIGFyZSBtYXNrZWQgZnJvbSDmhLzjuLHmhLzjuLVwYWNrYWdlOmdncGxvdDLmhLzjuLHmhLzjuLY6XG5cbiAgICAlKyUsIGFscGhhXG4ifQ== -->
+<pre><code>
+Attaching package: 愼㸱愼㸵psych愼㸱愼㸶
+
+The following objects are masked from 愼㸱愼㸵package:ggplot2愼㸱愼㸶:
+
+    %+%, alpha</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucHN5Y2g6OmRlc2NyaWJlKHB1bXMpXG5gYGAifQ== -->
+<pre class="r"><code>psych::describe(pums)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiICAgICAgICB2YXJzICAgICBuICAgIG1lYW4gICAgICBzZCAgbWVkaWFuIHRyaW1tZWQgICAgIG1hZCAgIG1pbiAgICAgIG1heFxuWCAgICAgICAgICAxIDEwMDAwIDUwMDAuNTAgMjg4Ni45MCA1MDAwLjUwIDUwMDAuNTAgMzcwNi41MCAgMS4wMCAxMDAwMC4wMFxuZWR1YyAgICAgICAyIDEwMDAwICAgMTIuNzcgICAgMy4yOSAgIDEyLjAwICAgMTIuNzUgICAgMi45NyAgMC4wMCAgICAyMC4wMFxueW9iICAgICAgICAzIDEwMDAwICAgMzQuNTkgICAgMi45MyAgIDM1LjAwICAgMzQuNjEgICAgNC40NSAzMC4wMCAgICAzOS4wMFxucW9iICAgICAgICA0IDEwMDAwICAgIDIuNTAgICAgMS4xMSAgICAzLjAwICAgIDIuNTAgICAgMS40OCAgMS4wMCAgICAgNC4wMFxucG9iICAgICAgICA1IDEwMDAwICAgMzAuOTggICAxNC4xMyAgIDM0LjAwICAgMzEuNDkgICAxNC44MyAgMS4wMCAgICA1Ni4wMFxud2tseXdnZSAgICA2IDEwMDAwICA0MzkuNDkgIDM0NS43MiAgMzg0LjcxICA0MDMuMTIgIDE3MS4xMSAgMC4yOSAxMjAwMC44M1xuICAgICAgICAgICByYW5nZSAgc2tldyBrdXJ0b3NpcyAgICBzZVxuWCAgICAgICAgOTk5OS4wMCAgMC4wMCAgICAtMS4yMCAyOC44N1xuZWR1YyAgICAgICAyMC4wMCAtMC4wMSAgICAgMC41NCAgMC4wM1xueW9iICAgICAgICAgOS4wMCAtMC4wNSAgICAtMS4yNyAgMC4wM1xucW9iICAgICAgICAgMy4wMCAtMC4wMSAgICAtMS4zNCAgMC4wMVxucG9iICAgICAgICA1NS4wMCAtMC4yNiAgICAtMC44MiAgMC4xNFxud2tseXdnZSAxMjAwMC41NCAxMi4wMiAgIDI4Ny4xOSAgMy40NlxuIn0= -->
+<pre><code>        vars     n    mean      sd  median trimmed     mad   min      max
+X          1 10000 5000.50 2886.90 5000.50 5000.50 3706.50  1.00 10000.00
+educ       2 10000   12.77    3.29   12.00   12.75    2.97  0.00    20.00
+yob        3 10000   34.59    2.93   35.00   34.61    4.45 30.00    39.00
+qob        4 10000    2.50    1.11    3.00    2.50    1.48  1.00     4.00
+pob        5 10000   30.98   14.13   34.00   31.49   14.83  1.00    56.00
+wklywge    6 10000  439.49  345.72  384.71  403.12  171.11  0.29 12000.83
+           range  skew kurtosis    se
+X        9999.00  0.00    -1.20 28.87
+educ       20.00 -0.01     0.54  0.03
+yob         9.00 -0.05    -1.27  0.03
+qob         3.00 -0.01    -1.34  0.01
+pob        55.00 -0.26    -0.82  0.14
+wklywge 12000.54 12.02   287.19  3.46</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="wklywgekurtosis" class="section level1">
+<h1>每週薪資（wklywge）存在著明顯的右偏，且有很高的kurtosis，最好將其取對數使其變得平滑</h1>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZ2dwbG90KHB1bXMsIGFlcyh4PWxvZyh3a2x5d2dlKSkpK2dlb21faGlzdG9ncmFtKClcbmBgYCJ9 -->
+<pre class="r"><code>ggplot(pums, aes(x=log(wklywge)))+geom_histogram()</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-plot-begin eyJjb25kaXRpb25zIjpbWzAsImBzdGF0X2JpbigpYCB1c2luZyBgYmlucyA9IDMwYC4gUGljayBiZXR0ZXIgdmFsdWUgd2l0aCBgYmlud2lkdGhgLlxuIl1dLCJoZWlnaHQiOjQwNi42NzQ5LCJzaXplX2JlaGF2aW9yIjowLCJ3aWR0aCI6NjU4fQ== -->
+<p><img src="data:image/png;base64,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" /></p>
+<!-- rnb-plot-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div class="section level1">
+<h1>原先不取對數時難以判別，取對數後發現稍稍呈現右偏分布。</h1>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubG0od2tseXdnZX5lZHVjLHB1bXMpXG5gYGAifQ== -->
+<pre class="r"><code>lm(wklywge~educ,pums)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5DYWxsOlxubG0oZm9ybXVsYSA9IHdrbHl3Z2UgfiBlZHVjLCBkYXRhID0gcHVtcylcblxuQ29lZmZpY2llbnRzOlxuKEludGVyY2VwdCkgICAgICAgICBlZHVjICBcbiAgICAgIDg1LjExICAgICAgICAyNy43NSAgXG4ifQ== -->
+<pre><code>
+Call:
+lm(formula = wklywge ~ educ, data = pums)
+
+Coefficients:
+(Intercept)         educ  
+      85.11        27.75  </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="ols27.7527.75" class="section level1">
+<h1>上面OLS估計可以看出教育年限貝塔係數為27.75，故當教育程度越高則每週實質薪資越高。教育程度每多一年，每週薪資平均增加27.75</h1>
 <blockquote>
 <p>我們只打算分析拿到高中學歷與大學學歷的薪資差異，令educ=12為高中學歷，而educ=16為大學學歷。</p>
 </blockquote>
@@ -209,6 +316,9 @@ library(ggplot2)</code></pre>
 </ol>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucHVtczIgPC0gZmlsdGVyKHB1bXMsIGVkdWM9PTE2IHwgZWR1Yz09MTIpXG5gYGAifQ== -->
+<pre class="r"><code>pums2 &lt;- filter(pums, educ==16 | educ==12)</code></pre>
+<!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <hr />
@@ -218,6 +328,16 @@ library(ggplot2)</code></pre>
 </ol>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY29sbGVnZSA8LSBwdW1zMiRlZHVjPT0xNlxuY2xhc3MoY29sbGVnZSlcbmBgYCJ9 -->
+<pre class="r"><code>college &lt;- pums2$educ==16
+class(college)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwibG9naWNhbFwiXG4ifQ== -->
+<pre><code>[1] &quot;logical&quot;</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucHVtczIkY29sbGVnZSA8LSBjb2xsZWdlXG5gYGAifQ== -->
+<pre class="r"><code>pums2$college &lt;- college</code></pre>
+<!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <blockquote>
@@ -228,13 +348,29 @@ library(ggplot2)</code></pre>
 </ol>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucHVtczIgJT4lIGdyb3VwX2J5KGNvbGxlZ2UpICU+JSBzdW1tYXJpc2UobWVhbih3a2x5d2dlKSxzZCh3a2x5d2dlKSlcbmBgYCJ9 -->
+<pre class="r"><code>pums2 %&gt;% group_by(college) %&gt;% summarise(mean(wklywge),sd(wklywge))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibmNvbCI6MywibnJvdyI6Mn0sInJkZiI6Ikg0c0lBQUFBQUFBQUJndHlpVERpaXVCaVlHQmdZbUJtWm1aZ1lnWXlXWmlBQkNNREN3TW5pSzVnWUdBV0JqSkFNaENGRU1BSXhId2d2a05sOUlUWGo2WDZIWnFxcHEvdHFIb0NGeTlqU1AxVUVLdnFVT1VWc0lUdFN3R2F3YXpKT1luRnhVQ0dBSklnVjBwaVNhSmVXbEZpYmlxNjhqeWdHRXc1TTFTUVBUay9KeWMxUFJYSzVjMU5UY3pUS00vT3FTeFBUOVdFQ25JWHB5Q0VVTTNrTE1vdjE0T1p5d3R5Y3dPUStQLy8vejhnOVE5Tk1YdCtRVWxtZmg1UUtSTW9PRmpSWE01WWhDWWdVSm9ITWpwRk56bWpOQzliMTlBQUduNk0wUERqaGJLWmtOak1FRHVaLzBQTllvV2F4WmFhbDU2WkIvTW1hMDVpVW1vT2xNTUg5QVBZQzNvRlJabDVKYkJ3QklvVzY1WGtseVRDMUhFQmd3b21Bdlljd3o4QVAySUNXUDBCQUFBPSJ9 -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["college"],"name":[1],"type":["lgl"],"align":["right"]},{"label":["mean(wklywge)"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["sd(wklywge)"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"FALSE","2":"405.7229","3":"352.0249"},{"1":"TRUE","2":"591.3241","3":"420.6447"}],"options":{"columns":{"min":{},"max":[10],"total":[3]},"rows":{"min":[10],"max":[10],"total":[2]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
+</div>
+<div class="section level1">
+<h1>上表指出，平均而言大學學歷的薪資高過高中學歷者，但是大學學歷的薪資差距會較高中學歷的薪資差距高。</h1>
 <ol start="6" style="list-style-type: decimal">
 <li>薪資研究多採用取對數轉換後的薪資，請產生取對數後的薪資變數，並取名為lwklywge。[Hint: 使用log()函數]</li>
 </ol>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubHdrbHl3Z2UgPC1sb2cocHVtczIkd2tseXdnZSlcbmBgYCJ9 -->
+<pre class="r"><code>lwklywge &lt;-log(pums2$wklywge)</code></pre>
+<!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <ol start="7" style="list-style-type: decimal">
@@ -242,13 +378,40 @@ library(ggplot2)</code></pre>
 </ol>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubW9kZWwgPC0gbHdrbHl3Z2V+Y29sbGVnZVxub3V0MSA8LSBsbShtb2RlbCxkYXRhPXB1bXMyKVxubGlicmFyeShzYW5kd2ljaClcbmxpYnJhcnkobG10ZXN0KVxuY29lZnRlc3Qob3V0MSx2Y292PXZjb3ZIQyhvdXQxLHR5cGU9XCJIQzBcIikpXG5gYGAifQ== -->
+<pre class="r"><code>model &lt;- lwklywge~college
+out1 &lt;- lm(model,data=pums2)
+library(sandwich)
+library(lmtest)
+coeftest(out1,vcov=vcovHC(out1,type=&quot;HC0&quot;))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG50IHRlc3Qgb2YgY29lZmZpY2llbnRzOlxuXG4gICAgICAgICAgICAgRXN0aW1hdGUgU3RkLiBFcnJvciB0IHZhbHVlICBQcig+fHR8KSAgICBcbihJbnRlcmNlcHQpIDUuODUyODI1NSAgMC4wMDk1ODg1IDYxMC4zOTkgPCAyLjJlLTE2ICoqKlxuY29sbGVnZVRSVUUgMC4zODQyNzUzICAwLjAxOTcxMzYgIDE5LjQ5MyA8IDIuMmUtMTYgKioqXG4tLS1cblNpZ25pZi4gY29kZXM6ICAwIOKAmCoqKuKAmSAwLjAwMSDigJgqKuKAmSAwLjAxIOKAmCrigJkgMC4wNSDigJgu4oCZIDAuMSDigJgg4oCZIDFcbiJ9 -->
+<pre><code>
+t test of coefficients:
+
+             Estimate Std. Error t value  Pr(&gt;|t|)    
+(Intercept) 5.8528255  0.0095885 610.399 &lt; 2.2e-16 ***
+collegeTRUE 0.3842753  0.0197136  19.493 &lt; 2.2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</code></pre>
+<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
+</div>
+<div id="38.4robust-set" class="section level1">
+<h1>模型簡單迴歸後得到的，在其他條件不變的情況下，大學生的週薪資會比高中生的週薪資高38.4%，這一點在「使用Robust SE」進行t檢定時也是顯著的。</h1>
 <ol start="8" style="list-style-type: decimal">
 <li>考慮迴歸殘差的有異質變異，且此變異可以被college捕捉。請針對簡單迴歸模型進行FGLS估計。</li>
 </ol>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShubG1lKVxucHVtczIkcHJlZGljdGVkPC1wcmVkaWN0KG91dDEpKClcbmBgYCJ9 -->
+<pre class="r"><code>library(nlme)
+pums2$predicted&lt;-predict(out1)()</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiRXJyb3I6IGF0dGVtcHQgdG8gYXBwbHkgbm9uLWZ1bmN0aW9uXG4ifQ== -->
+<pre><code>Error: attempt to apply non-function</code></pre>
+<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <ol start="9" style="list-style-type: decimal">
@@ -261,9 +424,16 @@ library(ggplot2)</code></pre>
 <ol start="10" style="list-style-type: decimal">
 <li>針對簡單迴歸模型，討論college係數可能有偏估的原因。[非電腦題，請用文字論述。]</li>
 </ol>
+</div>
+<div class="section level1">
+<h1>一、萬一資料是集中在某一州，則沒有把各州差異考慮進來。有些州平均而言教育程度、財富能力就是比較高，較多人可以上大學。理想的解決辦法是每一州的樣本資料都平均抽取。</h1>
+</div>
+<div id="college" class="section level1">
+<h1>二、沒有把職業類別考慮進來，平均而言，藍領階級者有大學學歷者較少，而白領階級平均都有大學學歷。教育程度影響了未來可能從事的職業類別，而職業類別直接決定了薪資高低。因此沒有把職業類別考慮進來可能使得college係數有所偏估。</h1>
 <!-- rnb-text-end -->
+</div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAi56ys5LiA5qyh6Zu76IWm5L2c5qWtIgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKLS0tCuS9nOalremZpOS6huiuk+WQjOWtuOaqouimluiqsuWgguaJgOWtuOeoi+W8j+Wklu+8jOacieS6m+mhjOebruWPquacg+e1puS9oOacquaVmemBjueahOWHveaVuOW7uuitsO+8iOe0lOeCuuW7uuitsO+8jOS9oOS5n+WPr+S7peS4jeS9v+eUqO+8ie+8jOS9oOW/hemcgOS9v+eUqEhlbHDmiJbntrLot6/mn6XlsIvljrvkuobop6Plh73mlbjnmoTmraPnorrkvb/nlKjvvJvmkJzoqaLmraPnorrnqIvlvI/lh73mlbjkvb/nlKjnmoTog73lipvvvIzkuZ/mmK/nqIvlvI/oqK3oqIjnmoTln7rmnKzlip/jgIIKCuaVmeiCsuiIh+iWquizhyAKCuS4gOmWi+Wni+iri+Wft+ihjApgYGB7cn0Kcm0obGlzdD1scygpKQpsaWJyYXJ5KGRwbHlyKQpsaWJyYXJ5KGdncGxvdDIpCmBgYAoKMS4g5LiL6LyJ5L2c5qWt5Lit5pyJ5LiA5YCL6LOH5paZ5qqUcHAuY3N277yM6KuL5bCH5a6D5byV5YWlUuS4lOizh+aWmeWQjeeoseWPq+WBmnB1bXPku6Xmlrnkvr/lvoznuozoqI7oq5bjgIJbaGludDog5Y+v5L2/55SoZW52aXJvbm1lbnToppbnqpfnmoRJbXBvcnQgRGF0YXNldHPpgbjllq7mjInpjbXvvIzkvYboqJjlvpfmiorlsI3mh4nnqIvlvI/osrzpgLLkvZzmpa3mqpRdCmBgYHtyfQoKYGBgCgoKPiDkvZzmpa3os4fmlpnkvoboh6rnvo7lnIsxOTgw5bm06Yed5bCN5Lit5bm055m95Lq65Yue5YuV6ICF55qE6Kq/5p+l77yM6YCZ6KOh5oiR5YCR6Zec5b+D55qEWeiuiuaVuOaYr+S7pTIwMDPlubTngrrln7rmnJ/nmoTlr6bos6rmr4/pgLHolqros4cod2tseXdnZSnvvIxY6K6K5pW45piv5pWZ6IKy5bm06ZmQKGVkdWMpLiDmiJHlgJHmg7Pmib7lh7rmlZnogrLnmoTloLHphazmnInlpJrpq5jvvJ/kuZ/lsLHmmK/lpJrlj5fpu57mlZnogrLvvIzolqros4flj6/ku6Xmj5Dpq5jlpJrlsJHvvJ8KCjIuIOWIneatpeingOWvn3drbHl3Z2XoiIdlZHVj6YCZ5YWp5YCL6K6K5pW477yM5L2g5rOo5oSP5Yiw5LuA6bq877yf5Y+v6Ieq55Sx55m85o+u5omA5oyU5pOa55qE6KeA5a+f77yM5Y+v5Lul5piv57Wx6KiI6YeP5oiW5piv5ZyW5b2i44CCCmBgYHtyfQoKYGBgCgoKPiDmiJHlgJHlj6rmiZPnrpfliIbmnpDmi7/liLDpq5jkuK3lrbjmrbfoiIflpKflrbjlrbjmrbfnmoTolqros4flt67nlbDvvIzku6RlZHVjPTEy54K66auY5Lit5a245q2377yM6ICMZWR1Yz0xNueCuuWkp+WtuOWtuOatt+OAggoKMy4g5L2/55SoZHBseXLoo6HnmoRmaWx0ZXIoKeeVmeS4i+espuWQiOaineS7tueahOaoo+acrO+8jOS4lOaoo+acrOWPluWQjeeCunB1bXMy44CCW0hpbnQ6IOatpOmhjOmcgOimgeS6huino+mCj+i8r+WIpOaWt+eoi+W8j+imj+WJh++8jOWQjOWtuOWPr+S7peWPg+iAg2h0dHBzOi8vY3Jhbi5yLXByb2plY3Qub3JnL2RvYy9tYW51YWxzL3ItcmVsZWFzZS9SLWludHJvLnBkZuijoeeahDIuNOevgExvZ2ljYWwgdmVjdG9yc+OAguimgeazqOaEj+eahOaYr++8jOimgeWIpOaWt+aYr+WQpmVkdWPngroxMu+8jOimgeWvq+aIkGVkdWM9PTEy77yM6ICM6Z2eZWR1Yz0xMl0KYGBge3J9CgpgYGAKCgoqKioK5Lul5LiL5ZWP6aGM6KuL5L2/55SocHVtczLos4fmlpkKCjQuIOWcqHB1bXMy55Si55Sf5LiA5YCLY29sbGVnZeiZm+aTrOiuiuaVuO+8jGNvbGxlZ2Xngrox6IulZWR1Yz0xNuOAguaOpeiRl+aqouimluipsuiuiuaVuOeahGNsYXNz44CCCmBgYHtyfQoKYGBgCgoKPiDopoHpgLLooYzliIbnvqTliIbmnpDmmYLvvIzmiJHlgJHlj6/ku6Xkvb/nlKhkcGx5cjo6Z3JvdXBfYnkoKeS+hueUoueUn+WIhue+pOizh+aWme+8jOS5i+W+jOeUqGRwbHlyOjpzdW1tYXJpc2UoKeS+hueUoueUn+WQhOWIpee+pOe1hOeahOeJueW+teWAvOOAguWmgiBkZCAlPiUgZ3JvdXBfYnkoeCkgJT4lIHN1bW1hcmlzZShtZWFuKHkpKSDku6PooajjgIzkvb/nlKjos4fmlplkZO+8jOS+neWFtuS4reeahHjorormlbjliIbnvqTvvIzkuKboqIjnrpflkITnvqTntYR56K6K5pW455qE5bmz5Z2H5YC844CCCgo1LiDop4Dlr59wdW1zMuS4jeWQjOWtuOatt+S4i+eahOW5s+Wdh+iWquizh+iIh+WFtumbouaVo+W6pu+8jOS9oOeZvOePvuS7gOm6vO+8nwpgYGB7cn0KCmBgYAoKNi4g6Jaq6LOH56CU56m25aSa5o6h55So5Y+W5bCN5pW46L2J5o+b5b6M55qE6Jaq6LOH77yM6KuL55Si55Sf5Y+W5bCN5pW45b6M55qE6Jaq6LOH6K6K5pW477yM5Lim5Y+W5ZCN54K6bHdrbHl3Z2XjgIJbSGludDog5L2/55SobG9nKCnlh73mlbhdCmBgYHtyfQoKYGBgCgo3LiDoq4vkvb/nlKjnsKHllq7ov7TmrbjkvobkvLDoqIhjb2xsZWdl5bCNbHdrbHl3Z2XnmoTlvbHpn7/vvIzkuKboqI7oq5blhbbpoa/okZfluqbjgIIKYGBge3J9CgpgYGAKCjguIOiAg+aFrui/tOatuOaumOW3rueahOacieeVsOizquiuiueVsO+8jOS4lOatpOiuiueVsOWPr+S7peiiq2NvbGxlZ2XmjZXmjYnjgILoq4vph53lsI3nsKHllq7ov7TmrbjmqKHlnovpgLLooYxGR0xT5Lyw6KiI44CCCmBgYHtyfQoKYGBgCgo5LiDph53lsI3kuIrpoYznmoTnlbDos6rorornlbDpgLLooYxCUOaqouWumuOAggpgYGB7cn0KCmBgYAoKMTAuIOmHneWwjeewoeWWrui/tOatuOaooeWei++8jOiojuirlmNvbGxlZ2Xkv4Lmlbjlj6/og73mnInlgY/kvLDnmoTljp/lm6DjgIJb6Z2e6Zu76IWm6aGM77yM6KuL55So5paH5a2X6KuW6L+w44CCXQo=</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIuesrOS4gOasoembu+iFpuS9nOalrSINCm91dHB1dDogaHRtbF9ub3RlYm9vaw0KLS0tDQrkvZzmpa3pmaTkuoborpPlkIzlrbjmqqLoppboqrLloILmiYDlrbjnqIvlvI/lpJbvvIzmnInkupvpoYznm67lj6rmnIPntabkvaDmnKrmlZnpgY7nmoTlh73mlbjlu7rorbDvvIjntJTngrrlu7rorbDvvIzkvaDkuZ/lj6/ku6XkuI3kvb/nlKjvvInvvIzkvaDlv4XpnIDkvb/nlKhIZWxw5oiW57ay6Lev5p+l5bCL5Y675LqG6Kej5Ye95pW455qE5q2j56K65L2/55So77yb5pCc6Kmi5q2j56K656iL5byP5Ye95pW45L2/55So55qE6IO95Yqb77yM5Lmf5piv56iL5byP6Kit6KiI55qE5Z+65pys5Yqf44CCDQoNCuaVmeiCsuiIh+iWquizhyANCg0K5LiA6ZaL5aeL6KuL5Z+36KGMDQpgYGB7cn0NCnJtKGxpc3Q9bHMoKSkNCmxpYnJhcnkoZHBseXIpDQpsaWJyYXJ5KGdncGxvdDIpDQpgYGANCg0KMS4g5LiL6LyJ5L2c5qWt5Lit5pyJ5LiA5YCL6LOH5paZ5qqUcHAuY3N277yM6KuL5bCH5a6D5byV5YWlUuS4lOizh+aWmeWQjeeoseWPq+WBmnB1bXPku6Xmlrnkvr/lvoznuozoqI7oq5bjgIJbaGludDog5Y+v5L2/55SoZW52aXJvbm1lbnToppbnqpfnmoRJbXBvcnQgRGF0YXNldHPpgbjllq7mjInpjbXvvIzkvYboqJjlvpfmiorlsI3mh4nnqIvlvI/osrzpgLLkvZzmpa3mqpRdDQpgYGB7cn0NCnB1bXMgPC0gcmVhZC5jc3YoImh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9hbWJlcmt1b2ZydWl0L1BhcnQtSS1Bc3NpZ25tZW50L21hc3Rlci9wcC5jc3YiKQ0KYGBgDQoNCg0KPiDkvZzmpa3os4fmlpnkvoboh6rnvo7lnIsxOTgw5bm06Yed5bCN5Lit5bm055m95Lq65Yue5YuV6ICF55qE6Kq/5p+l77yM6YCZ6KOh5oiR5YCR6Zec5b+D55qEWeiuiuaVuOaYr+S7pTIwMDPlubTngrrln7rmnJ/nmoTlr6bos6rmr4/pgLHolqros4cod2tseXdnZSnvvIxY6K6K5pW45piv5pWZ6IKy5bm06ZmQKGVkdWMpLiDmiJHlgJHmg7Pmib7lh7rmlZnogrLnmoTloLHphazmnInlpJrpq5jvvJ/kuZ/lsLHmmK/lpJrlj5fpu57mlZnogrLvvIzolqros4flj6/ku6Xmj5Dpq5jlpJrlsJHvvJ8NCg0KMi4g5Yid5q2l6KeA5a+fd2tseXdnZeiIh2VkdWPpgJnlhanlgIvorormlbjvvIzkvaDms6jmhI/liLDku4DpurzvvJ/lj6/oh6rnlLHnmbzmj67miYDmjJTmk5rnmoTop4Dlr5/vvIzlj6/ku6XmmK/ntbHoqIjph4/miJbmmK/lnJblvaLjgIINCmBgYHtyfQ0KZ2dwbG90KHB1bXMsIGFlcyh4PWVkdWMsIHk9d2tseXdnZSkpK2dlb21fc21vb3RoKCkNCmBgYA0KI+S4iuWcluWPr+ingOWvn+WIsOaVmeiCsueoi+W6puWwjeavj+mAseiWquizh+acieaYjumhr+ato+ebuOmXnA0KDQoj5oOz55yL55yL5pWZ6IKy56iL5bqm5aSn5bCPDQpgYGB7cn0NCmdncGxvdChwdW1zLCBhZXMoeD1lZHVjKSkrZ2VvbV9oaXN0b2dyYW0oKQ0KYGBgDQoj5LiK5ZyW6aGv56S65aSn5aSa5pW45Lq65pWZ6IKy56iL5bqm6JC95Zyo6auY5Lit77yM5YW25qyh54K65aSn5a245a245q23DQoNCmBgYHtyfQ0KbGlicmFyeShwc3ljaCkNCnBzeWNoOjpkZXNjcmliZShwdW1zKQ0KYGBgDQoj5q+P6YCx6Jaq6LOH77yId2tseXdnZe+8ieWtmOWcqOiRl+aYjumhr+eahOWPs+WBj++8jOS4lOacieW+iOmrmOeahGt1cnRvc2lz77yM5pyA5aW95bCH5YW25Y+W5bCN5pW45L2/5YW26K6K5b6X5bmz5ruRDQoNCmBgYHtyfQ0KZ2dwbG90KHB1bXMsIGFlcyh4PWxvZyh3a2x5d2dlKSkpK2dlb21faGlzdG9ncmFtKCkNCmBgYA0KI+WOn+WFiOS4jeWPluWwjeaVuOaZgumbo+S7peWIpOWIpe+8jOWPluWwjeaVuOW+jOeZvOePvueojeeojeWRiOePvuWPs+WBj+WIhuW4g+OAgg0KYGBge3J9DQpsbSh3a2x5d2dlfmVkdWMscHVtcykNCmBgYA0KI+S4iumdok9MU+S8sOioiOWPr+S7peeci+WHuuaVmeiCsuW5tOmZkOiyneWhlOS/guaVuOeCujI3Ljc177yM5pWF55W25pWZ6IKy56iL5bqm6LaK6auY5YmH5q+P6YCx5a+m6LOq6Jaq6LOH6LaK6auY44CC5pWZ6IKy56iL5bqm5q+P5aSa5LiA5bm077yM5q+P6YCx6Jaq6LOH5bmz5Z2H5aKe5YqgMjcuNzUNCg0KDQo+IOaIkeWAkeWPquaJk+eul+WIhuaekOaLv+WIsOmrmOS4reWtuOatt+iIh+Wkp+WtuOWtuOatt+eahOiWquizh+W3rueVsO+8jOS7pGVkdWM9MTLngrrpq5jkuK3lrbjmrbfvvIzogIxlZHVjPTE254K65aSn5a245a245q2344CCDQoNCjMuIOS9v+eUqGRwbHly6KOh55qEZmlsdGVyKCnnlZnkuIvnrKblkIjmop3ku7bnmoTmqKPmnKzvvIzkuJTmqKPmnKzlj5blkI3ngrpwdW1zMuOAgltIaW50OiDmraTpoYzpnIDopoHkuobop6Ppgo/ovK/liKTmlrfnqIvlvI/opo/liYfvvIzlkIzlrbjlj6/ku6Xlj4PogINodHRwczovL2NyYW4uci1wcm9qZWN0Lm9yZy9kb2MvbWFudWFscy9yLXJlbGVhc2UvUi1pbnRyby5wZGboo6HnmoQyLjTnr4BMb2dpY2FsIHZlY3RvcnPjgILopoHms6jmhI/nmoTmmK/vvIzopoHliKTmlrfmmK/lkKZlZHVj54K6MTLvvIzopoHlr6vmiJBlZHVjPT0xMu+8jOiAjOmdnmVkdWM9MTJdDQpgYGB7cn0NCnB1bXMyIDwtIGZpbHRlcihwdW1zLCBlZHVjPT0xNiB8IGVkdWM9PTEyKQ0KYGBgDQoNCg0KKioqDQrku6XkuIvllY/poYzoq4vkvb/nlKhwdW1zMuizh+aWmQ0KDQo0LiDlnKhwdW1zMueUoueUn+S4gOWAi2NvbGxlZ2XomZvmk6zorormlbjvvIxjb2xsZWdl54K6MeiLpWVkdWM9MTbjgILmjqXokZfmqqLoppboqbLorormlbjnmoRjbGFzc+OAgg0KYGBge3J9DQpjb2xsZWdlIDwtIHB1bXMyJGVkdWM9PTE2DQpjbGFzcyhjb2xsZWdlKQ0KcHVtczIkY29sbGVnZSA8LSBjb2xsZWdlDQpgYGANCg0KDQo+IOimgemAsuihjOWIhue+pOWIhuaekOaZgu+8jOaIkeWAkeWPr+S7peS9v+eUqGRwbHlyOjpncm91cF9ieSgp5L6G55Si55Sf5YiG576k6LOH5paZ77yM5LmL5b6M55SoZHBseXI6OnN1bW1hcmlzZSgp5L6G55Si55Sf5ZCE5Yil576k57WE55qE54m55b615YC844CC5aaCIGRkICU+JSBncm91cF9ieSh4KSAlPiUgc3VtbWFyaXNlKG1lYW4oeSkpIOS7o+ihqOOAjOS9v+eUqOizh+aWmWRk77yM5L6d5YW25Lit55qEeOiuiuaVuOWIhue+pO+8jOS4puioiOeul+WQhOe+pOe1hHnorormlbjnmoTlubPlnYflgLzjgIINCg0KNS4g6KeA5a+fcHVtczLkuI3lkIzlrbjmrbfkuIvnmoTlubPlnYfolqros4foiIflhbbpm6LmlaPluqbvvIzkvaDnmbznj77ku4DpurzvvJ8NCmBgYHtyfQ0KcHVtczIgJT4lIGdyb3VwX2J5KGNvbGxlZ2UpICU+JSBzdW1tYXJpc2UobWVhbih3a2x5d2dlKSxzZCh3a2x5d2dlKSkNCmBgYA0KI+S4iuihqOaMh+WHuu+8jOW5s+Wdh+iAjOiogOWkp+WtuOWtuOatt+eahOiWquizh+mrmOmBjumrmOS4reWtuOatt+iAhe+8jOS9huaYr+Wkp+WtuOWtuOatt+eahOiWquizh+W3rui3neacg+i8g+mrmOS4reWtuOatt+eahOiWquizh+W3rui3nemrmOOAgg0KDQoNCjYuIOiWquizh+eglOeptuWkmuaOoeeUqOWPluWwjeaVuOi9ieaPm+W+jOeahOiWquizh++8jOiri+eUoueUn+WPluWwjeaVuOW+jOeahOiWquizh+iuiuaVuO+8jOS4puWPluWQjeeCumx3a2x5d2dl44CCW0hpbnQ6IOS9v+eUqGxvZygp5Ye95pW4XQ0KYGBge3J9DQpsd2tseXdnZSA8LWxvZyhwdW1zMiR3a2x5d2dlKQ0KYGBgDQoNCjcuIOiri+S9v+eUqOewoeWWrui/tOatuOS+huS8sOioiGNvbGxlZ2XlsI1sd2tseXdnZeeahOW9semfv++8jOS4puiojuirluWFtumhr+iRl+W6puOAgg0KYGBge3J9DQptb2RlbCA8LSBsd2tseXdnZX5jb2xsZWdlDQpvdXQxIDwtIGxtKG1vZGVsLGRhdGE9cHVtczIpDQpsaWJyYXJ5KHNhbmR3aWNoKQ0KbGlicmFyeShsbXRlc3QpDQpjb2VmdGVzdChvdXQxLHZjb3Y9dmNvdkhDKG91dDEsdHlwZT0iSEMwIikpDQpgYGANCiPmqKHlnovnsKHllq7ov7TmrbjlvozlvpfliLDnmoTvvIzlnKjlhbbku5bmop3ku7bkuI3orornmoTmg4Xms4HkuIvvvIzlpKflrbjnlJ/nmoTpgLHolqros4fmnIPmr5Tpq5jkuK3nlJ/nmoTpgLHolqros4fpq5gzOC40Je+8jOmAmeS4gOm7nuWcqOOAjOS9v+eUqFJvYnVzdCBTReOAjemAsuihjHTmqqLlrprmmYLkuZ/mmK/poa/okZfnmoTjgIINCg0KOC4g6ICD5oWu6L+05q245q6Y5beu55qE5pyJ55Ww6LOq6K6K55Ww77yM5LiU5q2k6K6K55Ww5Y+v5Lul6KKrY29sbGVnZeaNleaNieOAguiri+mHneWwjeewoeWWrui/tOatuOaooeWei+mAsuihjEZHTFPkvLDoqIjjgIINCmBgYHtyfQ0KbGlicmFyeShubG1lKQ0KcHVtczIkcHJlZGljdGVkPC1wcmVkaWN0KG91dDEpKCkNCnB1bXMyJHJlc2lkdWFsczwtcmVzaWR1YWxzKG91dDEpDQpwdW1zMiAlPiUgZ2dwbG90KGFlcyh4PWNvbGxlZ2UseT0ocmVzaWR1YWxzKV4yKSkrZ2VvbV9wb2ludA0KDQpvdXQyPC1nbHMobW9kZWwsZGF0YT1wdW1zMix3ZWlnaHRzID0gdmFySWRlbnQoZm9ybSA9IH4xfCBjb2xsZWdlKSkNCnN1bW1hcnkob3V0MikNCmBgYA0KDQo5LiDph53lsI3kuIrpoYznmoTnlbDos6rorornlbDpgLLooYxCUOaqouWumuOAgg0KYGBge3J9DQpicHRlc3QobG5tb2RlbCwgZGF0YT1wdW1zMikNCmBgYA0KDQoxMC4g6Yed5bCN57Ch5Zau6L+05q245qih5Z6L77yM6KiO6KuWY29sbGVnZeS/guaVuOWPr+iDveacieWBj+S8sOeahOWOn+WboOOAglvpnZ7pm7vohabpoYzvvIzoq4vnlKjmloflrZfoq5bov7DjgIJdDQoNCiPkuIDjgIHokKzkuIDos4fmlpnmmK/pm4bkuK3lnKjmn5DkuIDlt57vvIzliYfmspLmnInmiorlkITlt57lt67nlbDogIPmha7pgLLkvobjgILmnInkupvlt57lubPlnYfogIzoqIDmlZnogrLnqIvluqbjgIHosqHlr4zog73lipvlsLHmmK/mr5TovIPpq5jvvIzovIPlpJrkurrlj6/ku6XkuIrlpKflrbjjgILnkIbmg7PnmoTop6Pmsbrovqbms5XmmK/mr4/kuIDlt57nmoTmqKPmnKzos4fmlpnpg73lubPlnYfmir3lj5bjgIINCg0KI+S6jOOAgeaykuacieaKiuiBt+alremhnuWIpeiAg+aFrumAsuS+hu+8jOW5s+Wdh+iAjOiogO+8jOiXjemgmOmajue0muiAheacieWkp+WtuOWtuOatt+iAhei8g+Wwke+8jOiAjOeZvemgmOmajue0muW5s+Wdh+mDveacieWkp+WtuOWtuOatt+OAguaVmeiCsueoi+W6puW9semfv+S6huacquS+huWPr+iDveW+nuS6i+eahOiBt+alremhnuWIpe+8jOiAjOiBt+alremhnuWIpeebtOaOpeaxuuWumuS6huiWquizh+mrmOS9juOAguWboOatpOaykuacieaKiuiBt+alremhnuWIpeiAg+aFrumAsuS+huWPr+iDveS9v+W+l2NvbGxlZ2Xkv4LmlbjmnInmiYDlgY/kvLDjgII=</div>
 
 
 

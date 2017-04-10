@@ -15,7 +15,7 @@ library(ggplot2)
 
 1. 下載作業中有一個資料檔pp.csv，請將它引入R且資料名稱叫做pums以方便後續討論。[hint: 可使用environment視窗的Import Datasets選單按鍵，但記得把對應程式貼進作業檔]
 ```{r}
-pums <- read.csv("C:/Users/asus/Desktop/School/Graduate School TW/Quan/Part-I-Assignment/pp.csv")
+pums <- read.csv("https://raw.githubusercontent.com/amberkuofruit/Part-I-Assignment/master/pp.csv")
 ```
 
 
@@ -23,8 +23,30 @@ pums <- read.csv("C:/Users/asus/Desktop/School/Graduate School TW/Quan/Part-I-As
 
 2. 初步觀察wklywge與educ這兩個變數，你注意到什麼？可自由發揮所挔據的觀察，可以是統計量或是圖形。
 ```{r}
-lm(wklywge~ educ, pums)
+ggplot(pums, aes(x=educ, y=wklywge))+geom_smooth()
 ```
+#上圖可觀察到教育程度對每週薪資有明顯正相關
+
+#想看看教育程度大小
+```{r}
+ggplot(pums, aes(x=educ))+geom_histogram()
+```
+#上圖顯示大多數人教育程度落在高中，其次為大學學歷
+
+```{r}
+library(psych)
+psych::describe(pums)
+```
+#每週薪資（wklywge）存在著明顯的右偏，且有很高的kurtosis，最好將其取對數使其變得平滑
+
+```{r}
+ggplot(pums, aes(x=log(wklywge)))+geom_histogram()
+```
+#原先不取對數時難以判別，取對數後發現稍稍呈現右偏分布。
+```{r}
+lm(wklywge~educ,pums)
+```
+#上面OLS估計可以看出教育年限貝塔係數為27.75，故當教育程度越高則每週實質薪資越高。教育程度每多一年，每週薪資平均增加27.75
 
 
 > 我們只打算分析拿到高中學歷與大學學歷的薪資差異，令educ=12為高中學歷，而educ=16為大學學歷。
@@ -42,7 +64,7 @@ pums2 <- filter(pums, educ==16 | educ==12)
 ```{r}
 college <- pums2$educ==16
 class(college)
-pums2.0 <-cbind(pums2, college)
+pums2$college <- college
 ```
 
 
@@ -50,8 +72,10 @@ pums2.0 <-cbind(pums2, college)
 
 5. 觀察pums2不同學歷下的平均薪資與其離散度，你發現什麼？
 ```{r}
-pums2 %>% group_by(educ) %>% summarise(mean(wklywge))
+pums2 %>% group_by(college) %>% summarise(mean(wklywge),sd(wklywge))
 ```
+#上表指出，平均而言大學學歷的薪資高過高中學歷者，但是大學學歷的薪資差距會較高中學歷的薪資差距高。
+
 
 6. 薪資研究多採用取對數轉換後的薪資，請產生取對數後的薪資變數，並取名為lwklywge。[Hint: 使用log()函數]
 ```{r}
@@ -60,17 +84,23 @@ lwklywge <-log(pums2$wklywge)
 
 7. 請使用簡單迴歸來估計college對lwklywge的影響，並討論其顯著度。
 ```{r}
-lnmodel<-lm(lwklywge~college)
-summary(lnmodel)
+model <- lwklywge~college
+out1 <- lm(model,data=pums2)
+library(sandwich)
+library(lmtest)
+coeftest(out1,vcov=vcovHC(out1,type="HC0"))
 ```
+#模型簡單迴歸後得到的，在其他條件不變的情況下，大學生的週薪資會比高中生的週薪資高38.4%，這一點在「使用Robust SE」進行t檢定時也是顯著的。
 
 8. 考慮迴歸殘差的有異質變異，且此變異可以被college捕捉。請針對簡單迴歸模型進行FGLS估計。
 ```{r}
 library(nlme)
-library(sandwich)
-library(lmtest)
-glsmodel<-gls(lwklywge~college, data=pums2, weights=varExp(form=~college))
-summary(glsmodel)
+pums2$predicted<-predict(out1)()
+pums2$residuals<-residuals(out1)
+pums2 %>% ggplot(aes(x=college,y=(residuals)^2))+geom_point
+
+out2<-gls(model,data=pums2,weights = varIdent(form = ~1| college))
+summary(out2)
 ```
 
 9. 針對上題的異質變異進行BP檢定。
@@ -80,4 +110,6 @@ bptest(lnmodel, data=pums2)
 
 10. 針對簡單迴歸模型，討論college係數可能有偏估的原因。[非電腦題，請用文字論述。]
 
-我認為可能是college這個係數本身還可以再繼續細分下去，比如說台政清交等名校的畢業生賺的應該比其他學校多，所以college係數會產生偏差
+#一、萬一資料是集中在某一州，則沒有把各州差異考慮進來。有些州平均而言教育程度、財富能力就是比較高，較多人可以上大學。理想的解決辦法是每一州的樣本資料都平均抽取。
+
+#二、沒有把職業類別考慮進來，平均而言，藍領階級者有大學學歷者較少，而白領階級平均都有大學學歷。教育程度影響了未來可能從事的職業類別，而職業類別直接決定了薪資高低。因此沒有把職業類別考慮進來可能使得college係數有所偏估。

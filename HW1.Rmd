@@ -24,8 +24,19 @@ pums <- read.csv("https://raw.githubusercontent.com/jhwei617/Part-I-Assignment/w
 
 2. 初步觀察wklywge與educ這兩個變數，你注意到什麼？可自由發揮所挔據的觀察，可以是統計量或是圖形。
 ```{r}
-lm(wklywge~ educ, pums)
+library(psych)
+describe(pums)
+lm(wklywge~educ,pums)
+#上表可知在其他條件不變下，每增加教育年限1年，對於實質每周薪資增加27.75%，此外可得知wklywge的skew=12.02>0，有右偏情況
+pums %>% ggplot(aes(x=wklywge)) + geom_histogram()
+pums %>% ggplot(aes(x=log(wklywge))) + geom_histogram()
+pums %>% ggplot(aes(x=educ)) + geom_histogram()
+pums %>% ggplot(aes(x=log(educ))) + geom_histogram()
+pums %>% ggplot(aes(x=educ,y=log(wklywge)))+geom_point() +geom_smooth(model=lm)
+#因為對wklywge取log後在畫圖顯示的結果較為清楚，教育年限與每周薪資呈正相關
 ```
+
+
 
 
 > 我們只打算分析拿到高中學歷與大學學歷的薪資差異，令educ=12為高中學歷，而educ=16為大學學歷。
@@ -41,9 +52,9 @@ pums2 <- filter(pums, educ==16 | educ==12)
 
 4. 在pums2產生一個college虛擬變數，college為1若educ=16。接著檢視該變數的class。
 ```{r}
-college <- pums2$educ==16
-class(college)
-pums2.0 <-cbind(pums2, college)
+pums2$college <-(pums2$educ==16)
+class(pums2$college)
+pums2
 ```
 
 
@@ -51,7 +62,8 @@ pums2.0 <-cbind(pums2, college)
 
 5. 觀察pums2不同學歷下的平均薪資與其離散度，你發現什麼？
 ```{r}
-pums2 %>% group_by(educ) %>% summarise(mean(wklywge))
+pums2 %>% group_by(college) %>% summarise(mean(wklywge),sd(wklywge))
+#在其他條件不變下，大學學歷的平均薪資會優於高中學歷，但同時變異數也較高中學歷大。
 ```
 
 6. 薪資研究多採用取對數轉換後的薪資，請產生取對數後的薪資變數，並取名為lwklywge。[Hint: 使用log()函數]
@@ -61,24 +73,24 @@ lwklywge <-log(pums2$wklywge)
 
 7. 請使用簡單迴歸來估計college對lwklywge的影響，並討論其顯著度。
 ```{r}
-lnmodel<-lm(lwklywge~college)
-summary(lnmodel)
+reg1<-lm(lwklywge~college,pums2)
+summary(reg1)
+library(sandwich)
+library(lmtest)
+coeftest(reg1,vcov=vcovHC(reg1,type='HC0'))
 ```
 
 8. 考慮迴歸殘差的有異質變異，且此變異可以被college捕捉。請針對簡單迴歸模型進行FGLS估計。
 ```{r}
 library(nlme)
-library(sandwich)
-library(lmtest)
-glsmodel<-gls(lwklywge~college, data=pums2, weights=varExp(form=~college))
-summary(glsmodel)
+reg2<-gls(lwklywge~college,data=pums2,weights=varIdent(form=~ 1 | college)) 
+summary(reg2)
 ```
 
 9. 針對上題的異質變異進行BP檢定。
 ```{r}
-bptest(lnmodel, data=pums2)
+bptest(lwklywge~college,data = pums2)
 ```
 
 10. 針對簡單迴歸模型，討論college係數可能有偏估的原因。[非電腦題，請用文字論述。]
-
-我認為可能是college這個係數本身還可以再繼續細分下去，比如說台政清交等名校的畢業生賺的應該比其他學校多，所以college係數會產生偏差
+可能有其他遺漏變數也會影響周薪資，但是沒有納入迴歸式，所以導致有偏誤的情形發生。

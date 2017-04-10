@@ -10,7 +10,8 @@ output: html_notebook
 ```{r}
 rm(list=ls()) #清空環境
 library(dplyr)
-library(ggplot2)
+library(ggplot2) 
+
 ```
 
 1. 下載作業中有一個資料檔pp.csv，請將它引入R且資料名稱叫做pums以方便後續討論。[hint: 可使用environment視窗的Import Datasets選單按鍵，但記得把對應程式貼進作業檔]

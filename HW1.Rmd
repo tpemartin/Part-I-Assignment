@@ -15,7 +15,6 @@ library(ggplot2)
 
 1. 下載作業中有一個資料檔pp.csv，請將它引入R且資料名稱叫做pums以方便後續討論。[hint: 可使用environment視窗的Import Datasets選單按鍵，但記得把對應程式貼進作業檔]
 ```{r}
-pums <- read.csv("C:/Users/asus/Desktop/School/Graduate School TW/Quan/Part-I-Assignment/pp.csv")
 ```
 
 
@@ -23,11 +22,13 @@ pums <- read.csv("C:/Users/asus/Desktop/School/Graduate School TW/Quan/Part-I-As
 
 2. 初步觀察wklywge與educ這兩個變數，你注意到什麼？可自由發揮所挔據的觀察，可以是統計量或是圖形。
 ```{r}
+ggplot(pums,aes(educ,wklywge))+geom_point()
 lm(wklywge~ educ, pums)
+
 ```
+教育年限越高每週薪資平均有較高，通常教育年限如果有7到14年就是代表有高中學歷到大學學歷，每週薪資平均會比較高,至於教育年限15-20年每週薪資無點狀分布，原因可能為當時工作環境無需較高學歷。
 
 
-> 我們只打算分析拿到高中學歷與大學學歷的薪資差異，令educ=12為高中學歷，而educ=16為大學學歷。
 
 3. 使用dplyr裡的filter()留下符合條件的樣本，且樣本取名為pums2。[Hint: 此題需要了解邏輯判斷程式規則，同學可以參考https://cran.r-project.org/doc/manuals/r-release/R-intro.pdf裡的2.4節Logical vectors。要注意的是，要判斷是否educ為12，要寫成educ==12，而非educ=12]
 ```{r}
@@ -51,7 +52,10 @@ pums2.0 <-cbind(pums2, college)
 5. 觀察pums2不同學歷下的平均薪資與其離散度，你發現什麼？
 ```{r}
 pums2 %>% group_by(educ) %>% summarise(mean(wklywge))
+pums2 %>% group_by(educ) %>% summarise(sd(wklywge))
 ```
+唸完大學的平均薪資比唸完高中的平均薪資高。
+唸完大學的離散程度也比唸完高中的離散程度高，一項可能的原因為，高中畢業學的知識大家都差不多，所以工作出路相差程度比較不大，大學畢業有較專業的知識，所以唸完大學後的工作選擇比唸完高中的工作多，故其大學畢業薪資的離散程度也較高。
 
 6. 薪資研究多採用取對數轉換後的薪資，請產生取對數後的薪資變數，並取名為lwklywge。[Hint: 使用log()函數]
 ```{r}
@@ -63,6 +67,7 @@ lwklywge <-log(pums2$wklywge)
 lnmodel<-lm(lwklywge~college)
 summary(lnmodel)
 ```
+2.2e-16<0.05所以顯著，大學對每週薪資有顯著影響。
 
 8. 考慮迴歸殘差的有異質變異，且此變異可以被college捕捉。請針對簡單迴歸模型進行FGLS估計。
 ```{r}
@@ -79,4 +84,4 @@ bptest(lnmodel, data=pums2)
 ```
 
 10. 針對簡單迴歸模型，討論college係數可能有偏估的原因。[非電腦題，請用文字論述。]
-我認為可能是college這個係數本身還可以再繼續細分下去，比如說台政清交等名校的畢業生賺的應該比其他學校多，所以college係數會產生偏差
+college具有異質性的原因我認為可能是因為尚有許多變數未列入回歸式中考慮，舉例來說:性別，工作性質，員工特性...都可能對薪資具有解釋力。所以college係數有偏誤。
